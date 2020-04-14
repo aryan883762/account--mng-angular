@@ -1,0 +1,9 @@
+{
+    "siteApiUrl": "",
+    "siteUrl": "http://localhost:4200",
+    "imageStorageUrl": "",
+    "pdfStorageUrl": "",
+    "siteImage": "",
+    "production": false,
+    "maintenance": false
+}

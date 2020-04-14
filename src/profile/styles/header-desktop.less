@@ -1,0 +1,133 @@
+@import './header-common';
+@import './dropdown';
+@header-padding: 40px;
+@tabs-height: 50px;
+@action-spacing: 10px;
+@action-btn-height: 50px;
+#profile-header-desktop {
+    .header-common();
+
+    label {
+        margin-top: -20px !important;
+    }
+
+    height: @header-bg-height;
+    padding: 0 @header-padding 45px 0;
+
+    
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), #116fbfad), url(../../assets/images/profile/profile-bg-new.jpg);
+    background-size: cover;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    .who {
+        top: 60px;
+        position: relative;
+        flex-grow: 2;
+        margin-left: 23px;
+
+        h1 { font-size: 2.5em; }
+        h2 { margin-bottom: 10px; font-size: 1.8em; }
+        p  { margin-bottom: 15px; }
+
+        .review-count { margin-left: .6em; }
+    }
+
+    .avatar {
+        @border: 1px solid #fff;
+        width: @profile-pic-lg-width;
+        height: @profile-pic-lg-height;
+        border-top: @border;
+        border-right: @border;
+        background: #203e5d;
+        top: (@tabs-height + @header-padding);
+        position: relative;
+    }
+
+    .misc {
+        text-align: right;
+        
+        /*
+            <ul class="actions">
+                <li><button/></li>
+            </ul>
+        */
+        
+        .profile-score-section {
+            position: relative;
+            left: 15px;
+            top: 25px;
+        }
+
+        .actions {
+            .inline-list();
+
+            margin-top: @action-spacing;
+
+            li:not(:last-of-type) {
+                margin-right: @action-spacing;
+            }
+
+            button.action {
+                height: @action-btn-height;
+                border-radius: 5px;
+                padding: 0 25px;
+
+                /*
+                .on-tablet({
+                    padding: 0 0.3em;
+                    height: 3em;
+                });
+                */
+            }
+        }
+    }
+}
+
+#profile-tabs {
+    @border: 1px solid #EBEBEB;
+
+    //margin-left: @profile-pic-lg-width;
+    height: @tabs-height;
+
+    border-right: @border;
+    border-left: @border;
+    border-bottom: @border;
+    background: #fff;
+
+    ul {
+        .ul-nav-defaults();
+
+        li {
+            a {
+                .font-regular();
+                
+                display: inline-block;
+                padding: 11px 1.5em;
+                color: #949494;
+                outline: 0;
+
+                &.active,
+                &:hover {
+                    color: @primary-orange;
+                    border-bottom: .2em solid @primary-orange;
+                    text-decoration: none;
+
+                }
+            }
+            .dropdown-content {
+            a{
+            width: 100%!important;
+             &.active,
+                &:hover {
+                    color: #ffff!important;
+                    border-bottom: unset!important;
+                    text-decoration: none;
+
+                }
+            }
+            }
+        }
+    }
+}

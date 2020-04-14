@@ -1,0 +1,26 @@
+
+<p-blockUI [blocked]="isResponseLoaded">
+ <div class="loader-container">
+  <div class="loader-square">
+  	<img src="../assets/images/loader.gif">
+  </div>
+</div>
+</p-blockUI>
+<router-outlet>
+	<!-- Loader -->
+	    <h2 class="centerLoader" *ngIf="!hideLoader">
+	    	<img src="./assets/images/">
+		    <div class="loading-square-waves">
+		      <div class="loading-square-waves__square"></div>
+		      <div class="loading-square-waves__square"></div>
+		      <div class="loading-square-waves__square"></div>
+		      <div class="loading-square-waves__square"></div>
+		      <div class="loading-square-waves__square"></div>
+		      <div class="loading-square-waves__square"></div>
+		      <div class="loading-square-waves__square"></div>
+		    </div>
+	    </h2>
+</router-outlet>
+<lib-ngx-notification></lib-ngx-notification>
+<ng-progress [color]="progressColor"></ng-progress>
+

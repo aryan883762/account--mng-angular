@@ -1,0 +1,88 @@
+@import './header-common';
+@import './dropdown';
+
+@ver-spacing: 20px;
+
+#profile-header-mobile {
+    .header-common();
+
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), #116fbfad), url(../../assets/images/profile/profile-bg-new.jpg);
+    background-size: cover;
+    text-align: center;
+    height: 210px;
+    .avatar {
+        margin-top: @ver-spacing;
+        width: @profile-pic-md-width;
+        height: @profile-pic-md-height;
+        border-radius: 50%;
+    }
+
+    .who {
+        h1 {
+            .font-regular();
+            margin-top: 50px;
+            font-size: 30px;
+        }
+
+        h2 {
+            margin-top: 5px;
+            font-size: 20px;
+        }
+    }
+
+    p {
+        margin-top: 5px;
+    }
+
+ 
+
+    footer {
+        &:before {
+            content: '';
+        }
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-top: 0px;
+        padding: 10px 0;
+
+        color: #dedede;
+        border-top: 1px solid #6D8691;
+
+        .industryscore {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .budget,
+        .industryscore {
+            margin: 0 1em;
+            text-align: center;
+        }
+    }
+}
+
+.actions {
+    @gap: 1px;
+    list-style-type: none;
+    column-count: 2;
+    column-gap: @gap;
+    margin-top: @gap;
+
+    .action {
+        margin-bottom: @gap;
+
+        text-align: center;
+        height: 66px;
+        width: 100%;
+    }
+}
+
+.header-action-buttons{
+    .actions {
+        column-count: 1;
+    }
+}

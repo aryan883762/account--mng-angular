@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="headerDiv headerLogo">
+      <img src="">
+    </div>
+    <div class="headerDiv headerLanguage">
+      <span style="color: #2d2c2c">Language:&nbsp;</span>
+      <a href="javascript:void(0)" 
+         class="language" 
+         (click)="changeLanguage('zh_CN')" 
+         [class.active]="activeLanguage==='zh_CN'">中文</a>&nbsp;|&nbsp;
+      <a href="javascript:void(0)" 
+         class="language" 
+         (click)="changeLanguage('en_US')" 
+         [class.active]="activeLanguage==='en_US'">ENG</a>
+    </div>
+
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<div class="gradient">
+    <div class="container show-on-desktop">
+        <profile-header-desktop [profile]="profile"></profile-header-desktop>
+    </div>
+</div>
+
+<profile-header-mobile [profile]="profile" class="hide-on-desktop"></profile-header-mobile>
+
+<router-outlet></router-outlet>
+<success-dialog></success-dialog>
+<error-dialog></error-dialog>
+<indentity-varification-dialog></indentity-varification-dialog>
+<indentity-status-dialog></indentity-status-dialog>

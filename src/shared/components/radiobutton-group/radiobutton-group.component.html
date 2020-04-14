@@ -1,0 +1,11 @@
+<div class="form-group">
+    <div class="mb-2">
+        <div class="mr-5" style="display: inline-block;" *ngFor="let item of options">
+            <p-radioButton name="{{groupName}}" value="{{item.id}}" [(ngModel)]="selectedID" label="{{item.name}}" (click)="onToggle()">
+            </p-radioButton>
+        </div>
+    </div>
+    <div *ngIf="isSubmitted && selectedID == 0" class="alert alert-danger">
+        *{{'required_text'|translate}}
+    </div>
+</div>

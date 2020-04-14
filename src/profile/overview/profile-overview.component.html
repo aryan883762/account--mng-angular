@@ -1,0 +1,45 @@
+
+<div class="gradient">
+    <div class="area container" style="z-index: unset;">
+        <div class="row">
+        <div class="col-md-12 overviewIndex">
+            <p-card>
+                <p-header class="tab">
+                    <button class="tablinks" 
+                    id="defaultOpen" 
+                    (click)="isMarginAccount=true" 
+                    [class.active]="isMarginAccount">{{'margin_account_text'|translate}}</button>
+                   <button class="tablinks"
+                    (click)="isMarginAccount=false" 
+                    [class.active]="!isMarginAccount">{{'cash_account_text'|translate}}</button>
+                </p-header>
+                <div *ngIf="isMarginAccount">
+                    <margin-account></margin-account>
+              </div>
+              <div *ngIf="!isMarginAccount">
+                     <cash-account></cash-account>
+              </div>
+                <p-footer>
+                </p-footer>
+            </p-card>
+          <!-- <div class="tab">
+            <button class="tablinks" 
+                    id="defaultOpen" 
+                    (click)="isMarginAccount=true" 
+                    [class.active]="isMarginAccount">{{'margin_account_text'|translate}}</button>
+            <button class="tablinks"
+                    (click)="isMarginAccount=false" 
+                    [class.active]="!isMarginAccount">{{'cash_account_text'|translate}}</button>
+          </div> -->
+        </div>
+        <!-- <div class="col-md-8" style="padding: 0">
+          <div *ngIf="isMarginAccount">
+                <margin-account></margin-account>
+          </div>
+          <div *ngIf="!isMarginAccount">
+                 <cash-account></cash-account>
+          </div>
+        </div> -->
+    </div>
+    </div>
+</div>

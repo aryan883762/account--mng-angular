@@ -1,0 +1,88 @@
+<form class="editForm customCheckboxFormLast" novalidate #step4Form="ngForm">
+    <div class="tab-pane active">
+        <h4 class="head text-center">{{'Step'|translate}} 4</h4>
+        <hr>
+        <div class="row">
+            <div class='col-md-12'>
+                <h6 class="subTitle"> {{'securities_account_txt'|translate}}</h6>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class="row">
+                    <div class='col-md-12'>
+                        <div class="form-group">
+                            <checkbox-group [options]="securitiesAccount" [title]="'securitiesAccount'" [isSubmitted]="step4Form.submitted" (toggle)="onSecuritiesAccountSelect($event)">
+                            </checkbox-group>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class='col-md-12'>
+                        <h6 class="subTitle"> {{'found_account_txt'|translate}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-12'>
+                        <div class="form-group">
+                            <checkbox-group [options]="fundAccount" [title]="'fundAccount'" [isSubmitted]="step4Form.submitted" (toggle)="onFundAccountSelect($event)">
+                            </checkbox-group>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row">
+                    <div class='col-xs-12 col-sm-12'>
+                        <div class="form-group">
+                            <label class="control-label" for="terms" style="margin-right: 35px;display:block">{{'i_agree_below_text'|translate}}</label>
+                            <div class="md-checkbox">
+                                <input type="checkbox" name="notice_on_risk" #notice_on_risk="ngModel" [(ngModel)]="noticeOnRisk" required id="notice_on_risk">
+                                <label for="notice_on_risk"><a [href]="noticeOnRiskDisclosureURL" target="_blank">{{'notice_on_risk_disclosure_text'|translate}}</a></label>
+                            </div>
+                            <div class="md-checkbox">
+                                <input type="checkbox" name="term_condition" #term_condition="ngModel" [(ngModel)]="termsAndCondition" required id="term_condition">
+                                <label for="term_condition"><a [href]="accountOpeningTermsURL" target="_blank"> {{'terms_text'|translate}}</a></label>
+                            </div>
+                            <div class="md-checkbox">
+                                <input type="checkbox" name="apply_for_china_connect_NTS" #apply_for_china_connect_NTS="ngModel" [(ngModel)]="applyFOrChinaConnect" required id="apply_for_china_connect_NTS">
+                                <label for="apply_for_china_connect_NTS"><a href="javascript:void(0)" target="_blank">{{'Apply_for_china_connect_NTS'|translate}}</a></label>
+                            </div>
+                            <div class="md-checkbox">
+                                <input type="checkbox" name="tax_resident_certificate" #tax_resident_certificate="ngModel" [(ngModel)]="taxResident" required id="tax_resident_certificate">
+                                <label for="tax_resident_certificate"><a href="javascript:void(0)" target="_blank"> {{'Tax_resident_certificate'|translate}}</a></label>
+                            </div>
+                            <div class="md-checkbox">
+                                <input type="checkbox" name="w8_Ban_Form" #w8_Ban_Form="ngModel" [(ngModel)]="w8BanForm" required id="w8_Ban_Form">
+                                <label for="w8_Ban_Form"><a href="javascript:void(0)" target="_blank"> {{'W8_Ban_Form'|translate}}</a></label>
+                            </div>
+                            <div class="alert alert-danger" *ngIf="step4Form.submitted && (term_condition.invalid || notice_on_risk.invalid)">
+                                *{{'required_text'|translate}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="showSaveErrored">
+                    <div class='col-md-12'>
+                        <div class="form-group">
+                            <div class="alert alert-danger">
+                                <div *ngIf="errors.length > 0 then errorList else errorGeneric"></div>
+
+                                <ng-template #errorList>
+                                    <ul>
+                                        <li *ngFor="let error of errors">{{error}}</li>
+                                    </ul>
+                                </ng-template>
+
+                                <ng-template #errorGeneric>
+                                    <li *ngFor="let error of errors">{{error}}</li>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button class="primary actionnext" style="width: 50%" (click)="goToPrevious(selectAccountForm)"> <span  class="glyphicon glyphicon-arrow-left"></span> {{'previous_text'|translate}}</button>
+                    <button class="primary" (click)="submitForm(step4Form)"> {{'submit_text'|translate}} <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

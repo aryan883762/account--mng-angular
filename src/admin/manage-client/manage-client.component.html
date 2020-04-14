@@ -1,0 +1,155 @@
+<h2>Profile Management</h2>
+<p-table [value]="users" [lazy]="true" (onLazyLoad)="tableData($event)" [paginator]="true" [rows]="pageSize" [totalRecords]="totalRecords" [loading]="loading" [rowsPerPageOptions]="pageSizeOptions" [defaultSortOrder]="-1" dataKey="id">
+    <ng-template pTemplate="header" let-columns let-expanded="expanded">
+        <tr>
+            <th style="width:3em"></th>
+            <th style="width:2.5em"></th>
+            <th style="width:10%">ID</th>
+            <th style="width:30%">Email</th>
+            <th>Language</th>
+            <th>Active</th>
+            <th>Created</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex" let-expanded="expanded">
+        <tr [pReorderableRow]="index">
+            <td>
+                <a href="#" [pRowToggler]="rowData" (click)="toggleExpand(!expanded, rowData.id)" id="expandedID-{{rowData.id}}">
+                    <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                </a>
+            </td>
+            <td>
+                <i class="fa fa-bars" pReorderableRowHandle></i>
+            </td>
+            <td>{{rowData.id}}</td>
+            <td>{{rowData.email}}</td>
+            <td>{{rowData.lang}}</td>
+            <td>{{rowData.active}}</td>
+            <td>{{rowData.create_time}}</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+        <tr>
+            <td [attr.colspan]="'7'">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p-fieldset [legend]="rowData.email">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p-fieldset legend="Account">
+                                            <div class="row">
+                                                <!-- Email -->
+                                                <div class="col-md-6">
+                                                    <p>Email</p>
+                                                    <input type="radio" name="emailVerified{{rowData.id}}" id="emailVerified-1-{{rowData.id}}" class="radio-button" value="1" [checked]="rowData.verified_email == 1" (change)="rowData.verified_email = 1" />
+                                                    <label for="emailVerified-1-{{rowData.id}}" class="radio-button-click-target">
+                                        <span class="radio-button-circle"></span>Varified
+                                      </label>
+                                                    <input type="radio" name="emailVerified{{rowData.id}}" id="emailVerified-2-{{rowData.id}}" class="radio-button" value="0" [checked]="rowData.verified_email == 0" (change)="rowData.verified_email = 0" />
+                                                    <label for="emailVerified-2-{{rowData.id}}" class="radio-button-click-target">
+                                        <span class="radio-button-circle"></span>Not verified
+                                      </label>
+                                                </div>
+
+                                                <!-- Mobile -->
+                                                <div class="col-md-6">
+                                                    <p>Mobile</p>
+                                                    <input type="radio" name="verified_mobile{{rowData.id}}" id="verified_mobile-1-{{rowData.id}}" class="radio-button" value="1" [checked]="rowData.verified_mobile == 1" (change)="rowData.verified_mobile = 1" />
+                                                    <label for="verified_mobile-1-{{rowData.id}}" class="radio-button-click-target">
+                                        <span class="radio-button-circle"></span>Varified
+                                      </label>
+                                                    <input type="radio" name="verified_mobile{{rowData.id}}" id="verified_mobile-2-{{rowData.id}}" class="radio-button" value="0" [checked]="rowData.verified_mobile == 0" (change)="rowData.verified_mobile = 0" />
+                                                    <label for="verified_mobile-2-{{rowData.id}}" class="radio-button-click-target">
+                                      <span class="radio-button-circle"></span>Not verified
+                                    </label>
+                                                </div>
+                                                <!-- Account -->
+                                                <div class="col-md-6">
+                                                    <p>Is Account</p>
+                                                    <input type="radio" name="active{{rowData.id}}" id="active-1-{{rowData.id}}" class="radio-button" value="1" [checked]="rowData.active == 1" (change)="rowData.active = 1" />
+                                                    <label for="active-1-{{rowData.id}}" class="radio-button-click-target">
+                                      <span class="radio-button-circle"></span>Active
+                                    </label>
+                                                    <input type="radio" name="active{{rowData.id}}" id="active-2-{{rowData.id}}" class="radio-button" value="0" [checked]="rowData.active == 0" (change)="rowData.active = 0" />
+                                                    <label for="active-2-{{rowData.id}}" class="radio-button-click-target">
+                                      <span class="radio-button-circle"></span>De-active
+                                    </label>
+                                                </div>
+                                            </div>
+                                        </p-fieldset>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p-fieldset legend="Docs">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Check uploaded documents <a href="javascript:void(0)" (click)="openDocument(rowData.docs)">view document</a></label>
+                                                </div>
+                                                <!-- Identity -->
+                                                <div class="col-md-6">
+                                                    <p>Identity (ID)</p>
+                                                    <input type="radio" name="verified_identity{{rowData.id}}" id="verified_identity-1-{{rowData.id}}" class="radio-button" value="1" [checked]="rowData.verified_identity == 1" (change)="rowData.verified_identity = 1" />
+                                                    <label for="verified_identity-1-{{rowData.id}}" class="radio-button-click-target">
+                                                <span class="radio-button-circle"></span>Varified
+                                              </label>
+                                                    <input type="radio" name="verified_identity{{rowData.id}}" id="verified_identity-2-{{rowData.id}}" class="radio-button" value="0" [checked]="rowData.verified_identity == 0" (change)="rowData.verified_identity = 0" />
+                                                    <label for="verified_identity-2-{{rowData.id}}" class="radio-button-click-target">
+                                            <span class="radio-button-circle"></span>Not verified
+                                          </label>
+                                                </div>
+                                                <!-- Address -->
+                                                <div class="col-md-6">
+                                                    <p>Address</p>
+                                                    <input type="radio" name="verified_address{{rowData.id}}" id="verified_address-1-{{rowData.id}}" class="radio-button" value="1" [checked]="rowData.verified_address == 1" (change)="rowData.verified_address = 1" />
+                                                    <label for="verified_address-1-{{rowData.id}}" class="radio-button-click-target">
+                                                <span class="radio-button-circle"></span>Varified
+                                              </label>
+                                                    <input type="radio" name="verified_address{{rowData.id}}" id="verified_address-2-{{rowData.id}}" class="radio-button" value="0" [checked]="rowData.verified_address == 0" (change)="rowData.verified_address = 0" />
+                                                    <label for="verified_address-2-{{rowData.id}}" class="radio-button-click-target">
+                                                <span class="radio-button-circle"></span>Not verified
+                                              </label>
+                                                </div>
+                                                <!-- Bank book -->
+                                                <div class="col-md-6">
+                                                    <p>Bank book</p>
+                                                    <input type="radio" name="verified_bank_book{{rowData.id}}" id="verified_bank_book-1-{{rowData.id}}" class="radio-button" value="1" [checked]="rowData.verified_bank_book == 1" (change)="rowData.verified_bank_book = 1" />
+                                                    <label for="verified_bank_book-1-{{rowData.id}}" class="radio-button-click-target">
+                                                <span class="radio-button-circle"></span>Varified
+                                              </label>
+                                                    <input type="radio" name="verified_bank_book{{rowData.id}}" id="verified_bank_book-2-{{rowData.id}}" class="radio-button" value="0" [checked]="rowData.verified_bank_book == 0" (change)="rowData.verified_bank_book = 0" />
+                                                    <label for="verified_bank_book-2-{{rowData.id}}" class="radio-button-click-target">
+                                                <span class="radio-button-circle"></span>Not verified
+                                              </label>
+                                                </div>
+                                                <!-- W8-ban -->
+                                                <div class="col-md-6">
+                                                    <p>W8-ban</p>
+                                                    <input type="radio" name="verified_w8ban{{rowData.id}}" id="verified_w8ban-1-{{rowData.id}}" class="radio-button" value="1" [checked]="rowData.verified_w8ban == 1" (change)="rowData.verified_w8ban = 1" />
+                                                    <label for="verified_w8ban-1-{{rowData.id}}" class="radio-button-click-target">
+                                              <span class="radio-button-circle"></span>Varified
+                                            </label>
+                                                    <input type="radio" name="verified_w8ban{{rowData.id}}" id="verified_w8ban-2-{{rowData.id}}" class="radio-button" value="0" [checked]="rowData.verified_w8ban == 0" (change)="rowData.verified_w8ban = 0" />
+                                                    <label for="verified_w8ban-2-{{rowData.id}}" class="radio-button-click-target">
+                                              <span class="radio-button-circle"></span>Not verified
+                                            </label>
+                                                </div>
+                                            </div>
+                                        </p-fieldset>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-">
+                                        <button type="button" class="primary" (click)="updateUser(rowData)">Update</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" class="danger" (click)="deleteUser(rowData.id)">Delete user</button>
+                                    </div>
+                                </div>
+                            </p-fieldset>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

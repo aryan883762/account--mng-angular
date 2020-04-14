@@ -1,0 +1,29 @@
+<div class="gradient" style="border: none">
+    <div class="container" style="z-index: unset;">
+        <div class="row">
+            <div class="col-md-12 text-center" style="margin:20px" *ngIf="(hasAccount && !isAccountCompleted) || !hasAccount">
+                <!-- <img src="../../assets/images/norecord.gif" class="norecord"> -->
+
+                <p>{{'no_margin_account_text'|translate}}!</p>
+                <small>{{'click_on_open_account_margin_text'|translate}}.</small>
+                <br>
+                <button class="primary" routerLink="../account-opening/margin" style="margin-top:20px">
+                    {{'open_account_text'|translate}}</button>
+            </div>
+            <div class="col-md-12" *ngIf="hasAccount && isAccountCompleted">
+                <p-card subheader="{{'margin_account_text'|translate}}" styleClass="ui-card-shadow">
+                    <br>
+                    <h4>{{'net_asset_value_text'|translate}} (HK $)</h4>
+                    <h4>{{balanceInMarginAccount}}</h4>
+                    <br>
+                    <button class="primary" (click)="identityVarification()" *ngIf="!isDocsVerified && isAccountCompleted">
+                    {{'open_account_text'|translate}}</button>
+                    <p class="text-danger" *ngIf="!isDocsVerified && isAccountCompleted">
+                        {{'identity_verification_pending_text'|translate}}.
+                    </p>
+                </p-card>
+
+            </div>
+        </div>
+    </div>
+</div>

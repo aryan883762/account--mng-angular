@@ -1,0 +1,73 @@
+<ng-container *ngIf="dialogVisible">
+    <p-dialog autoAlign="true" blockScroll="true" modal="true" width="auto" ngClass="custom-dialog sm" [resizable]="false" [closable]="false" [(visible)]="dialogVisible">
+        <p-header ngClsass="popup-header">
+            <h4 style="display: inline-flex;">{{'identity_verification_text'|translate}}</h4> <span style="color: #c06060"> ({{headerTitle|translate}})</span>
+            <span class="ij icon x-icon" (click)="hideDialog()"></span>
+        </p-header>
+    <article class="dialog-container">
+            <div class="dialog-body">
+                <form #uploadDocumentForm="ngForm" class="editForm" novalidate>
+      <div class="tab-pane active">
+        <div class="row">
+          <div class="col-md-12">
+            <p style="color:#9f0d0d">{{'hong_kong_resident_text'|translate}} {{headerTitle|translate}}</p>
+          </div>
+        </div>
+         <div class="row">
+          <div class="col-md-12">
+            <h5>{{'document_type_text'|translate}}: {{headerTitle|translate}}</h5>
+          </div>
+        </div>
+         <div class="row">
+          <div class="col-md-12">
+            <div class="cc-selector-2 text-center">
+                <input id="companyBR" type="radio" name="document" value="company_br" [(ngModel)] = "model.documentType" *ngIf="model.documentType == 'company_br'" style="width: unset; display: none" checked="true" />
+                <label class="document-cc companyBR" for="companyBR" title="{{'company_br_text'|translate}}" *ngIf="model.documentType == 'company_br'"></label>
+                <input id="idCard" type="radio" name="document" value="id_card" [(ngModel)] = "model.documentType" *ngIf="model.documentType == 'id_card'" style="width: unset; display: none" checked="true" />
+                <label class="document-cc idCard" for="idCard" title="{{'identity_card_text'|translate}}" *ngIf="model.documentType == 'id_card'"></label>
+                <input id="addressCard" type="radio" name="document" value="address" *ngIf="model.documentType == 'address'"  [(ngModel)] = "model.documentType" style="width: unset; display: none" />
+                <label class="document-cc addressCard" title="{{'address_proof_text'|translate}}" *ngIf="model.documentType == 'address'"  for="addressCard"></label>
+              </div>
+          </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class="row">
+                    <div class='col-md-12'>
+                        <div class="form-group">
+                         <div class="file-upload">
+                            <div class="alert alert-danger" *ngIf="submitted && !outputImg">{{'required_text'|translate}}</div>
+                            <div class="image-upload-wrap" *ngIf="!model.document">
+                              <input class="file-upload-input" type='file' #fileInput (change)="onFileChanged($event);" accept="image/*" required="true" />
+                              <div class="drag-text">
+                                <h6>{{'drag_and_drop_text'|translate}} {{headerTitle|prefix|translate}} {{headerTitle|translate}} {{'or_text'|translate}} {{'select_an_image_text'|translate}}</h6>
+                              </div>
+                            </div>
+                            <div class="file-upload-content" *ngIf="model.document">
+                              <img class="file-upload-image" [src]="outputImg" alt="your image" />
+                              <div class="image-title-wrap mt-3">
+                                <button type="button" (click)="removeUpload()" class="remove-image">{{'remove_text'|translate}} <span class="image-title">{{'upload_image_text'|translate}} </span></button>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                      <span><b>{{'tips_text'|translate}} : </b>{{'make_sure_your_text'|translate}} {{headerTitle|translate}} {{'is_complete_and_the_text_is_clearly_text'|translate}}.</span>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</form>
+            </div>
+        </article>
+        <p-footer>
+            <button type="button" pButton label="{{'close_text'|translate}}" (click)="hideDialog()"></button>
+              <button type="button" pButton label="{{'save_text'|translate}}"   (click)="save(uploadDocumentForm)"></button>
+        </p-footer>
+    </p-dialog>
+</ng-container>

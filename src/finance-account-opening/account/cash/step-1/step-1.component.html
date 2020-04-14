@@ -1,0 +1,401 @@
+<form #step1Form="ngForm" class="editForm" novalidate>
+        <div class="tab-pane active">
+            <h4 class="head text-center">{{'Step'|translate}} 1</h4>
+            <hr>
+            <div class='row'>
+                <div class='col-md-12'>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6"></div>
+                    <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="ownerType">
+                            {{'account_type_text'|translate}}</label>
+                                <div class="group selectOtn">
+                                    <select class="form-control" required name="ownerType" #ownerType="ngModel" [(ngModel)]="step1Data.owner_type_id" required="true">
+                                    <option class="option" 
+                                        value="0" 
+                                        disabled="true" 
+                                        selected="true">{{'select_text'|translate}}</option>
+                                    <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrOwnerType')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                </select>
+                                </div>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && ownerType.invalid">
+                                    *{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-12'>
+                            <div class="form-group">
+                                <h6 class="subTitle">{{'identity_information'|translate}}</h6>
+                            </div>
+                        </div>
+    
+                        <!-- <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="chineseName">{{'chinese_name_txt'|translate}}</label>
+                                <input #chineseName="ngModel" required id="chineseName" name="chineseName" type="text" placeholder="{{'chinese_name_txt'|translate}}" [(ngModel)]="step1Data.name_chinese" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && chineseName.invalid">
+                                    *{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="englishName">{{'english_name_txt'|translate}}</label>
+                                <input #englishName="ngModel" required id="englishName" name="englishName" type="text" placeholder="{{'english_name_txt'|translate}}" [(ngModel)]="step1Data.name_english" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && englishName.invalid">
+                                    *{{'required_text'|translate}}</div>
+                            </div>
+                        </div> -->
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="firstname_zh">{{'first_name'|translate}} ({{'chinese'|translate}})</label>
+                                <input #firstname_zh="ngModel" required id="firstname_zh" name="firstname_zh" type="text" placeholder="{{'first_name'|translate}}" [(ngModel)]="step1Data.firstname_zh" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && firstname_zh.invalid">
+                                    *{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="lastname_zh">{{'last_name'|translate}} ({{'chinese'|translate}})</label>
+                                <input #lastname_zh="ngModel" required id="lastname_zh" name="lastname_zh" type="text" placeholder="{{'last_name'|translate}}" [(ngModel)]="step1Data.lastname_zh" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && lastname_zh.invalid">
+                                    *{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="firstname_en">{{'first_name'|translate}} ({{'english'|translate}})</label>
+                                <input #firstname_en="ngModel" required id="firstname_en" name="firstname_en" type="text" placeholder="{{'first_name'|translate}}" [(ngModel)]="step1Data.firstname_en" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && firstname_en.invalid">
+                                    *{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="lastname_en">{{'last_name'|translate}} ({{'english'|translate}})</label>
+                                <input #lastname_en="ngModel" required id="lastname_en" name="lastname_en" type="text" placeholder="{{'last_name'|translate}}" [(ngModel)]="step1Data.lastname_en" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && lastname_en.invalid">
+                                    *{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="gender">
+                            {{'gender_txt'|translate}}</label>
+                                <div class="group selectOtn">
+                                    <select class="form-control" required name="gender" #gender="ngModel" [(ngModel)]="step1Data.gender_id" required="true">
+                                    <option class="option" 
+                                        value="0" 
+                                        disabled="true" 
+                                        selected="true">
+                                    {{'select_text'|translate}}
+                                    </option>
+                                    <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrGender')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                </select>
+                                </div>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && gender.invalid">
+                                    *{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="email">{{'email_txt'|translate}}</label>
+                                <input #email="ngModel" required id="email" name="email" type="email" placeholder="{{'email_txt'|translate}}" [(ngModel)]="step1Data.email" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && email.invalid">*{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6'>
+                                <div class="form-group">
+                                    <label class="control-label" for="dob">
+                                {{'dob_txt'|translate}}</label>
+                                    <!--        <input type="date" 
+                                            id="dob" 
+                                            name="dob" 
+                                            #dob="ngModel"
+                                            required
+                                            [(ngModel)]="step1Data.dob"> -->
+                                    <p-calendar id="dob" name="dob" #dob="ngModel" required [(ngModel)]="step1Data.dob" dataType="string" [showIcon]="true" dateFormat="yy/mm/dd" placeholder="YYYY/MM/DD"></p-calendar>
+                                    <div class="alert alert-danger" *ngIf="step1Form.submitted && dob.invalid">*{{'required_text'|translate}}</div>
+                                </div>
+                            </div>
+                            <div class='col-xs-12 col-sm-6'>
+                                <div class="form-group">
+                                    <label class="control-label" for="dobPlace"> {{'pob_country_txt'|translate}}</label>
+                                    <div class="group selectOtn">
+                                        <select class="form-control" required name="dobPlace" #dobPlace="ngModel" [(ngModel)]="step1Data.place_of_birth_country_id" required="true">
+                                                <option class="option" value="0" disabled="true" selected="true">
+                                                        {{'select_text'|translate}}
+                                                </option>
+                                            <option class="option"
+                                                *ngFor="let g of lookupSvc.getAttributeValues('attrCountry')"
+                                                [ngValue]="g.id" >{{g.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="alert alert-danger" *ngIf="step1Form.submitted && dobPlace.invalid">*{{'required_text'|translate}}</div>
+                                </div>
+                            </div>
+                            <div class='col-xs-12 col-sm-12' *ngIf="step1Data.place_of_birth_country_id == 2">
+                                <div class="form-group">
+                                    <label class="control-label" for="dobprovince">{{'province_text'|translate}}</label>
+                                    <input #dobprovince="ngModel" required id="dobprovince" name="dobprovince" type="text" placeholder="{{'province_text'|translate}}" [(ngModel)]="step1Data.place_of_birth_province_text" pInputText>
+                                    <div class="alert alert-danger" *ngIf="step1Form.submitted && dobprovince.invalid">*{{'required_text'|translate}}</div>
+                                </div>
+                            </div>
+                            <div class='col-xs-12 col-sm-12' *ngIf="step1Data.place_of_birth_country_id == 999">
+                                <div class="form-group">
+                                    <label class="control-label" for="dobotherCountry">{{'country_text'|translate}}</label>
+                                    <input #dobotherCountry="ngModel" required id="dobotherCountry" name="dobotherCountry" type="text" placeholder="{{'country_text'|translate}}" [(ngModel)]="step1Data.place_of_birth_other_country_text" pInputText>
+                                    <div class="alert alert-danger" *ngIf="step1Form.submitted && dobotherCountry.invalid">*{{'required_text'|translate}}</div>
+                                </div>
+                            </div>
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="country">{{'Nationality'|translate}}</label>
+                                <div class="group selectOtn">
+                                    <select class="form-control" required name="country" #country="ngModel" [(ngModel)]="step1Data.identification_country_id" required="true">
+                                            <option class="option" value="0" disabled="true" selected="true">
+                                                {{'select_text'|translate}}  </option>
+                                        <option class="option"
+                                            *ngFor="let g of lookupSvc.getAttributeValues('attrCountry')"
+                                            [ngValue]="g.id" >{{g.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && country.invalid">*{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6' *ngIf="step1Data.identification_country_id == 2">
+                            <div class="form-group">
+                                <label class="control-label" for="province">{{'province_text'|translate}}</label>
+                                <input #province="ngModel" required id="province" name="province" type="text" placeholder="{{'province_text'|translate}}" [(ngModel)]="step1Data.identification_province_text" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && province.invalid">*{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6' *ngIf="step1Data.identification_country_id == 999">
+                            <div class="form-group">
+                                <label class="control-label" for="otherCountry">{{'country_text'|translate}}</label>
+                                <input #otherCountry="ngModel" required id="otherCountry" name="otherCountry" type="text" placeholder="{{'country_text'|translate}}" [(ngModel)]="step1Data.identification_other_country_text" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && otherCountry.invalid">*{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="identificationNumber">
+                            {{'identification_number_txt'|translate}}</label>
+                                <input #identificationNumber="ngModel" required id="identificationNumber" name="identificationNumber" type="text" placeholder="{{'identification_number_txt'|translate}}" [(ngModel)]="step1Data.identification_number" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && identificationNumber.invalid">*{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-6 col-sm-12 col-md-12'>
+                        <div class="form-group">
+                                <label class="control-label" for="email" style="margin-right: 35px">{{'permanent_resident_txt'|translate}}</label>
+                                <div class="mr-2" style="display: inline-block;">
+                                    <p-radioButton name="residence" value="1" label="{{'yes_text'|translate}}" [(ngModel)]="step1Data.is_permanent_resident">
+                                    </p-radioButton>
+                                </div>
+                                <div class="mr-2" style="display: inline-block;">
+                                    <p-radioButton name="residence" value="0" [(ngModel)]="step1Data.is_permanent_resident" label="{{'no_text'|translate}}">
+                                    </p-radioButton>
+                                </div>
+            
+                            </div>
+                        </div>
+                        <div class='col-md-12'>
+                            <div class="form-group">
+                                <label class="control-label" for="address"> {{'address_txt'|translate}}</label>
+                                <textarea rows="3" id="address" #address="ngModel" cols="30" name="address" [(ngModel)]="step1Data.address" required="true" autoResize="autoResize" style="resize: none;width:100%;padding:10px" placeholder="{{'address_txt'|translate}}"></textarea>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && address.invalid">*{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="addressType"> {{'Address_type'|translate}}</label>
+                                <div class="group selectOtn">
+                                    <select class="form-control" required name="addressType" #addressType="ngModel" [(ngModel)]="step1Data.address_type_id" required="true">
+                                            <option class="option" value="0" disabled="true" selected="true">
+                                                    {{'select_text'|translate}}
+                                            </option>
+                                        <option class="option"
+                                            *ngFor="let g of lookupSvc.getAttributeValues('attrAddressType')"
+                                            [ngValue]="g.id" >{{g.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && addressType.invalid">*{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-6'>
+                            <div class="form-group">
+                                <label class="control-label" for="liveDuration">
+                                        {{'Live_duration'|translate}} ({{'in_year'|translate}})</label>
+                                <input #liveDuration="ngModel"  required id="liveDuration" name="liveDuration" type="number" placeholder="1 Year" [(ngModel)]="step1Data.address_live_duration" pInputText>
+                                <div class="alert alert-danger" *ngIf="step1Form.submitted && liveDuration.invalid">*{{'required_text'|translate}}</div>
+                            </div>
+                        </div>
+                        <div class='col-xs-12 col-sm-12' *ngIf="step1Data.address_type_id == 999">
+                            <div class="form-group">
+                                <label class="control-label" for="address_type_other_text">{{'address_type_description'|translate}} ({{'optional'|translate}})</label>
+                                <textarea rows="2" id="address_type_other_text" #address_type_other_text="ngModel" cols="30" name="address_type_other_text" [(ngModel)]="step1Data.address_type_other_text"  autoResize="autoResize" style="resize: none;width:100%;padding:10px" placeholder="{{'address_type_description'|translate}} ({{'optional'|translate}})"></textarea>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                                <form #f="ngForm" [formGroup]="mobilePhoneForm" style="padding: 0;">
+                                    <div class="group customPhone">
+                                        <div class="form-group">
+                                            <label class="control-label" for="phone">{{'Mobile_Phone'|translate}}</label>
+                                            <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries" [selectedCountryISO]="CountryISO.HongKong" [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true" [separateDialCode]="separateDialCode" name="phone"
+                                                formControlName="phone">
+                                            </ngx-intl-tel-input>
+                                            <div class="alert alert-danger" *ngIf="step1Form.submitted && f.form.controls['phone'].errors && f.form.controls['phone'].errors['required']">*{{'required_text'|translate}}</div>
+                                            <div class="alert alert-danger" *ngIf="step1Form.submitted && f.form.controls['phone'].errors && !f.form.controls['phone'].errors['required'] && f.form.controls['phone'].invalid">
+                                                {{'invalid_phone_number_text'|translate}}</div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <form #f2="ngForm" [formGroup]="homePhoneForm" style="padding: 0;">
+                                    <div class="group customPhone">
+                                        <div class="form-group">
+                                            <label class="control-label" for="phone">{{'Home_Phone'|translate}} ({{'optional'|translate}})</label>
+                                            <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries" [selectedCountryISO]="CountryISO.HongKong" [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true" [separateDialCode]="separateDialCode" name="phone"
+                                                formControlName="phone">
+                                            </ngx-intl-tel-input>
+                                            <!-- <div class="alert alert-danger" *ngIf="step1Form.submitted && f2.form.controls['phone'].errors && f2.form.controls['phone'].errors['required']">*{{'required_text'|translate}}</div> -->
+                                            <div class="alert alert-danger" *ngIf="step1Form.submitted && f2.form.controls['phone'].errors && !f2.form.controls['phone'].errors['required'] && f2.form.controls['phone'].invalid">
+                                                {{'invalid_phone_number_text'|translate}}</div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        <div class='col-xs-12 col-sm-6'>
+                                <div class="form-group">
+                                    <label class="control-label" for="highestEducation">
+                                {{'highest_education_txt'|translate}}</label>
+                                    <div class="group selectOtn">
+                                        <select class="form-control" required name="highestEducation" #highestEducation="ngModel" [(ngModel)]="step1Data.highest_education_id" required="true">
+                                            <option class="option" value="0" disabled="true" selected="true">
+                                                    {{'select_text'|translate}}
+                                            </option>
+                                        <option class="option"
+                                            *ngFor="let g of lookupSvc.getAttributeValues('attrEducation')"
+                                            [ngValue]="g.id" >{{g.name}}</option>
+                                    </select>
+                                    </div>
+                                    <div class="alert alert-danger" *ngIf="step1Form.submitted && highestEducation.invalid">*{{'required_text'|translate}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class='col-md-12'>
+                                <h6 class="subTitle">{{'Employer_info'|translate}}</h6>
+                            </div>
+                        </div>
+                        <div class='row mt-3'>
+                            <div class='col-md-12'>
+                                <div class="row">
+                                    <div class='col-xs-12 col-sm-12'>
+                                        <div class="form-group">
+                                            <label class="control-label" for="employer_address">{{'Address'|translate}}</label>
+                                            <input #employer_address="ngModel" required id="employer_address" name="employer_address" type="text" placeholder="{{'Address'|translate}}" [(ngModel)]="step1Data.employer_address" pInputText>
+                                            <div class="alert alert-danger" *ngIf="step1Form.submitted && employer_address.invalid">*{{'required_text'|translate}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6">
+                                        <!-- <label class="control-label" for="phone">{{'Phone_number'|translate}}</label>
+                                        <international-phone-number id="phone" [(ngModel)]="employer_phone_number" required placeholder="{{'Phone_number'|translate}}" [maxlength]="20" [defaultCountry]="'cn'" #employer_phone_number1="ngModel" name="employer_phone_number1" [allowedCountries]="['sg','hk','in','cn']">
+                                        </international-phone-number>
+                                        <div *ngIf="step2Form.submitted && !employer_phone_number1.valid" class="alert alert-danger">{{'Phone_number_should_be_valid'|translate}}</div> -->
+                                        <form #ep="ngForm" [formGroup]="employerPhoneForm" style="padding: 0;">
+                                            <div class="group customPhone">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="phone">{{'Phone_number'|translate}}</label>
+                                                    <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries" [selectedCountryISO]="CountryISO.HongKong" [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true" [separateDialCode]="separateDialCode" name="phone"
+                                                        formControlName="phone">
+                                                    </ngx-intl-tel-input>
+                                                    <div class="alert alert-danger" *ngIf="step1Form.submitted && ep.form.controls['phone'].errors && ep.form.controls['phone'].errors['required']">*{{'required_text'|translate}}</div>
+                                                    <div class="alert alert-danger" *ngIf="step1Form.submitted && ep.form.controls['phone'].errors && !ep.form.controls['phone'].errors['required'] && ep.form.controls['phone'].invalid">
+                                                        {{'invalid_phone_number_text'|translate}}</div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class='col-xs-12 col-sm-6'>
+                                        <div class="form-group">
+                                            <label class="control-label" for="employer_fax_number">{{'Fax_number'|translate}}</label>
+                                            <input #employer_fax_number="ngModel" required id="employer_fax_number" name="employer_fax_number" type="text" placeholder="{{'Fax_number'|translate}}" [(ngModel)]="step1Data.employer_fax_number" pInputText>
+                                            <div class="alert alert-danger" *ngIf="step1Form.submitted && employer_fax_number.invalid">*{{'required_text'|translate}}</div>
+                                        </div>
+                                    </div>
+                                    <div class='col-xs-12 col-sm-6'>
+                                        <div class="form-group">
+                                            <label class="control-label" for="professionalStatus">
+                                            {{'professional_status_txt'|translate}}</label>
+                                            <div class="group selectOtn">
+                                                <select class="form-control" required name="professionalStatus" #professionalStatus="ngModel" [(ngModel)]="step1Data.professional_status_id" required="true">
+                                                        <option class="option" value="0" disabled="true" selected="true">
+                                                                {{'select_text'|translate}}
+                                                        </option>
+                                                    <option class="option"
+                                                        *ngFor="let g of lookupSvc.getAttributeValues('attrProfessionalStatus')"
+                                                        [ngValue]="g.id" >{{g.name}}</option>
+                                                </select>
+                                            </div>
+    
+                                            <div class="alert alert-danger" *ngIf="step1Form.submitted && professionalStatus.invalid">*{{'required_text'|translate}}</div>
+                                        </div>
+                                    </div>
+                                    <div class='col-xs-12 col-sm-6'>
+                                        <div class="form-group">
+                                            <label class="control-label" for="companyName">{{'company_name_txt'|translate}}</label>
+                                            <input #companyName="ngModel" required id="companyName" name="companyName" type="text" placeholder=" {{'company_name_txt'|translate}}" [(ngModel)]="step1Data.company_name" pInputText>
+                                            <div class="alert alert-danger" *ngIf="step1Form.submitted && companyName.invalid">*{{'required_text'|translate}}</div>
+                                        </div>
+                                    </div>
+                                    <div class='col-xs-12 col-sm-6'>
+                                        <div class="form-group">
+                                            <label class="control-label" for="carrerPosition">
+                                        {{'career_position_txt'|translate}}</label>
+                                            <input #carrerPosition="ngModel" required id="carrerPosition" name="carrerPosition" type="text" placeholder=" {{'career_position_txt'|translate}}" [(ngModel)]="step1Data.career_position" pInputText>
+                                            <div class="alert alert-danger" *ngIf="step1Form.submitted && carrerPosition.invalid">*{{'required_text'|translate}}</div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class='col-xs-12 col-sm-6'>
+                                        <div class="form-group">
+                                            <label class="control-label" for="bussinessNature">
+                                        {{'Business_nature_type'|translate}} </label>
+                                            <div class="group selectOtn">
+                                                <select class="form-control" required name="bussinessNature" #bussinessNature="ngModel" [(ngModel)]="step1Data.business_nature_id" required="true">
+                                                        <option class="option" value="0" disabled="true" selected="true">
+                                                                {{'select_text'|translate}}
+                                                        </option>
+                                                    <option class="option"
+                                                        *ngFor="let g of lookupSvc.getAttributeValues('attrBusinessNature')"
+                                                        [ngValue]="g.id" >{{g.name}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="alert alert-danger" *ngIf="step1Form.submitted && bussinessNature.invalid">*{{'required_text'|translate}}</div>
+                                        </div>
+                                    </div> -->
+                                    <div class='col-xs-12 col-sm-6'>
+                                        <div class="form-group">
+                                            <label class="control-label" for="businessNatureText">
+                                        {{'business_nature_txt'|translate}}</label>
+                                            <input #businessNatureText="ngModel" required id="businessNatureText" name="businessNatureText" type="text" placeholder="{{'business_nature_txt'|translate}}" [(ngModel)]="step1Data.business_nature_text" pInputText>
+                                            <div class="alert alert-danger" *ngIf="step1Form.submitted && businessNatureText.invalid">*{{'required_text'|translate}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                    <div class="form-group text-center">
+                        <button class="primary" (click)="goToNext(step1Form)"> {{'next_text'|translate}} <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></button>
+                    </div>
+                </div>  
+                </div>
+            </div>
+        </div>
+        </div>
+    </form>

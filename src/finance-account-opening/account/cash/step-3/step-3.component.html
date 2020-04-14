@@ -1,0 +1,115 @@
+<form #step3Form="ngForm" class="editForm" novalidate>
+    <div class="tab-pane active">
+        <h4 class="head text-center">{{'Step'|translate}} 3</h4>
+        <hr>
+        <div class='row'>
+            <div class='col-md-12'>
+                <!-- <div class="row mb-3">
+                    <div class="col-md-12">
+                        <h6 class="subTitle"> {{'other_information_disclosure_txt'|translate}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-12'>
+                        <checkbox-group [options]="disclosure" [title]="'disclosure'" [isSubmitted]="step3Form.submitted" (toggle)="onDisclosureSelect($event)">
+                        </checkbox-group>
+                    </div>
+                </div> -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <h6 class="subTitle">{{'tax_information_txt'|translate}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                            <label class="control-label" for="taxInformation">
+                            {{'tax_information_txt'|translate}}</label>
+                            <div class="group selectOtn">
+                                <select class="form-control" id="taxInformation" required name="taxInformation" #taxInformation="ngModel" [(ngModel)]="step3Data.tax_information_id">
+                                     <option class="option" 
+                                             value="0" 
+                                             disabled="true" 
+                                             > {{'select_text'|translate}}</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrTaxInformation')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                 </select>
+                            </div>
+                            <div class="alert alert-danger" *ngIf="step3Form.submitted && taxInformation.invalid">
+                                *{{'required_text'|translate}}</div>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                            <label class="control-label" for="taxCountry">
+                             {{'tax_country_txt'|translate}}</label>
+                            <div class="group selectOtn">
+                                <select class="form-control" id="taxCountry" required name="taxCountry" #taxCountry="ngModel" [(ngModel)]="step3Data.tax_country_id">
+                                     <option class="option" 
+                                             value="0" 
+                                             disabled="true" 
+                                             > {{'select_text'|translate}}</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrCountry')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                 </select>
+                            </div>
+
+                            <div class="alert alert-danger" *ngIf="step3Form.submitted && taxCountry.invalid">*{{'required_text'|translate}}</div>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                            <label class="control-label" for="taxId">
+                              {{'tax_id_txt'|translate}} </label>
+                            <input #taxId="ngModel" required id="taxId" name="taxId" type="text" placeholder="{{'tax_id_txt'|translate}}" [(ngModel)]="step3Data.tax_id" pInputText>
+
+                            <div class="alert alert-danger" *ngIf="step3Form.submitted && taxId.invalid">*{{'required_text'|translate}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-md-12'>
+                        <p style="color: #949494;">{{'a_taxt_resident_content_text'|translate}}.</p>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class='col-md-12'>
+                        <h6 class="subTitle">W-8BEN</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                            <label class="control-label" for="w8benCountry">
+                             {{'w8ben_country_txt'|translate}} </label>
+                            <div class="group selectOtn">
+                                <select class="form-control" id="w8benCountry" required name="w8benCountry" #w8benCountry="ngModel" [(ngModel)]="step3Data.w8ben_country_id">
+                                     <option class="option" 
+                                             value="0" 
+                                             disabled="true" 
+                                             > {{'select_text'|translate}}</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrCountry')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                 </select>
+                            </div>
+                            <div class="alert alert-danger" *ngIf="step3Form.submitted && w8benCountry.invalid">*{{'required_text'|translate}}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class='col-md-12'>
+                        <p style="color: #949494;">{{'your_country_or_territory_text'|translate}}.</p>
+                    </div>
+                </div> -->
+                <div class="form-group text-center">
+                    <button class="primary actionnext" style="width: 50%" (click)="goToPrevious(step3Form)"> <span  class="glyphicon glyphicon-arrow-left"></span>  {{'previous_text'|translate}}</button>
+                    <button class="primary" (click)="goToNext(step3Form)">  {{'next_text'|translate}} <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

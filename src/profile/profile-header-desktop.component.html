@@ -1,0 +1,71 @@
+
+<header id="profile-header-desktop">
+    <!-- <img class="avatar" src="../assets/images/avatar.png" alt="aryan" /> -->
+    <div class="image-box__overlay"></div>
+
+    <div class="who">
+        <h1>{{profile.user.name_english}}</h1>
+        <small style="font-size: 65px;">{{profile.user.email.charAt(0)}}</small><span style="text-decoration: underline;">{{profile.user.email.slice(1)}}</span>
+        <br>
+      <p-fieldset legend="{{'verified_text'|translate}}">
+        <span class="verfication"> {{'email_txt'|translate}} </span> 
+        <span [className]="profileSvc.isEmailVarified?'ij icon icon-y':'ij icon icon-x'"></span> 
+        <span class="verfication"> {{'mobile_text'|translate}}  </span>
+        <span [className]="profileSvc.isMobileVarified?'ij icon icon-y':'ij icon icon-x'"></span> 
+        <span class="verfication"> {{'identity_text'|translate}} </span> 
+        <span [className]="profileSvc.isIdentityVerified?'ij icon icon-y':'ij icon icon-x'"></span> 
+        <span class="verfication"> {{'address_txt'|translate}} </span> 
+        <span [className]="profileSvc.isAddressVarified?'ij icon icon-y':'ij icon icon-x'"></span> 
+       </p-fieldset>
+
+    </div>
+
+    <div class="misc">
+<!--         <label class="ind-score">Annual Income</label> -->
+        <br>
+        <span  class="score {{size}}"></span>
+
+        <ul  class="actions profile-score-section">
+<!--             <li >
+                <button  class="action contact">Contact</button>
+            </li> -->
+            <li >
+                <button class="action about" (click)="logout()">{{'logout_text'|translate}} </button>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<nav id="profile-tabs">
+    <ul>
+        <li><a routerLink="overview" routerLinkActive="active">{{'account_overview_text'|translate}}</a></li>
+        <li >
+        <div class="dropdown">
+          <a class="pointer">{{'fund_related_text'|translate}}</a>
+            <div class="dropdown-content">
+                <a routerLink="fund-deposit">{{'deposit_funds_text'|translate}}</a>
+                <a routerLink="fund-withdraw">{{'withdraw_funds_text'|translate}}</a>
+            </div>
+        </div>
+        </li>
+         <li >
+        <div class="dropdown">
+          <a class="pointer">{{'stock_related_text'|translate}}</a>
+            <div class="dropdown-content">
+                <a routerLink="transfer-to-stock">{{'transfer_to_stock_text'|translate}}</a>
+                <a routerLink="stock-history">{{'stock_history_text'|translate}}</a>
+            </div>
+        </div>
+        </li>
+           <li >
+  <!--       <div class="dropdown">
+          <a class="pointer">Settings</a>
+            <div class="dropdown-content">
+                <a routerLink="setting/profile-info">Profile</a>
+                <a routerLink="setting/personal-info">Personal Info</a>
+                <a routerLink="setting/password">Change password</a>
+            </div>
+        </div> -->
+        </li>
+    </ul>
+</nav>

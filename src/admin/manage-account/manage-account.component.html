@@ -1,0 +1,796 @@
+<h2>Account Management</h2>
+<p-table [value]="accounts" [lazy]="true" (onLazyLoad)="tableData($event)" [paginator]="true" [rows]="pageSize" [totalRecords]="totalRecords" [loading]="loading" [rowsPerPageOptions]="pageSizeOptions" [defaultSortOrder]="-1" dataKey="id">
+    <ng-template pTemplate="header" let-columns let-expanded="expanded">
+        <tr>
+            <th style="width:3em"></th>
+            <!-- <th style="width:10%">ID</th> -->
+            <th style="width:10%">User ID</th>
+            <th>Email</th>
+            <th style="width:12%">Type</th>
+            <th style="width:12%">Balance</th>
+            <th style="width:14%">Opening form</th>
+            <!-- <th style="width:12%">Approved</th> -->
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex" let-expanded="expanded">
+        <tr [pReorderableRow]="index">
+            <td>
+                <a href="#" [pRowToggler]="rowData" (click)="getAccountInfo(!expanded, rowData.id)" id="expandedID-{{rowData.id}}">
+                    <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                </a>
+            </td>
+
+            <!-- <td>{{rowData.id}}</td> -->
+            <td>{{rowData.user_id}}</td>
+            <td>{{(rowData.user)?rowData.user['email']:''}}</td>
+            <td>{{rowData.type}}</td>
+            <td>{{rowData.balance}}</td>
+            <td><a href="javascript:void(0)" (click)="downloadOpeningForm(rowData.id)">
+                   Download <i class="fa fa-download" aria-hidden="true"></i></a></td>
+            <!-- <td>{{rowData.approved_user_id}}</td> -->
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+        <tr>
+            <td [attr.colspan]="'6'">
+                <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                    <div class="col-md-8" *ngIf="accountInfo">
+                        <p-fieldset legend="Account info">
+                            <form #accountForm="ngForm" class="editForm" novalidate>
+                                <p-panel header="Basic Information" collapsed="false" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+                                    <div class="tab-pane active">
+                                        <h4 class="head text-center">Personal Information</h4>
+                                        <br/>
+                                        <div class='row'>
+                                            <div class='col-md-12'>
+                                                <div class="row">
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="chineseName">Chinese name</label>
+                                                            <input #chineseName="ngModel" disabled required id="chineseName" name="chineseName" type="text" placeholder="Chinese name" [(ngModel)]="accountInfo.name_chinese" pInputText>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && chineseName.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="englishName">English name</label>
+                                                            <input #englishName="ngModel" disabled required id="englishName" name="englishName" type="text" placeholder="English name" [(ngModel)]="accountInfo.name_english" pInputText>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && englishName.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="gender">
+                            Gender</label>
+                                                            <p></p>
+                                                            <div class="group selectOtn">
+                                                                <select class="form-control" disabled required name="gender" #gender="ngModel" [(ngModel)]="accountInfo.gender_id" required="true">
+                                     <option class="option" value="0" disabled="true" selected="true">Select gender</option>
+                                    <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrGender')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                </select>
+                                                            </div>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && gender.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="email">Email</label>
+                                                            <input #email="ngModel" disabled required id="email" name="email" type="email" placeholder="Email" [(ngModel)]="accountInfo.email" pInputText>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && email.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="country">Country/Region</label>
+                                                            <div class="group selectOtn">
+                                                                <select class="form-control" disabled required name="country" #country="ngModel" [(ngModel)]="accountInfo.identification_country_id" required="true">
+                                         <option class="option" value="0" disabled="true" selected="true">Select country</option>
+                                        <option class="option"
+                                            *ngFor="let g of lookupSvc.getAttributeValues('attrCountry')"
+                                            [ngValue]="g.id" >{{g.name}}</option>
+                                    </select>
+                                                            </div>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && country.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="identificationNumber">
+                            Identification number</label>
+                                                            <input #identificationNumber="ngModel" disabled required id="identificationNumber" name="identificationNumber" type="text" placeholder="Indentification" [(ngModel)]="accountInfo.identification_number" pInputText>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && identificationNumber.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="highestEducation">
+                            Highest Education</label>
+                                                            <div class="group selectOtn">
+                                                                <select class="form-control" disabled required name="highestEducation" #highestEducation="ngModel" [(ngModel)]="accountInfo.highest_education_id" required="true">
+                                     <option class="option" value="0" disabled="true" selected="true">Select education</option>
+                                    <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrEducation')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                </select>
+                                                            </div>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && highestEducation.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="dob">
+                            Date of birth</label>
+                                                            <input type="date" id="dob" disabled name="dob" #dob="ngModel" required [(ngModel)]="accountInfo.dob">
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && dob.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="dobPlace">Birth place</label>
+                                                            <div class="group selectOtn">
+                                                                <select class="form-control" disabled required name="dobPlace" #dobPlace="ngModel" [(ngModel)]="accountInfo.place_of_birth_country_id" required="true">
+                                         <option class="option" value="0" disabled="true" selected="true">Select country</option>
+                                        <option class="option"
+                                            *ngFor="let g of lookupSvc.getAttributeValues('attrCountry')"
+                                            [ngValue]="g.id" >{{g.name}}</option>
+                                    </select>
+                                                            </div>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && dobPlace.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-md-12'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="address">Address</label>
+                                                            <textarea rows="3" id="address" disabled #address="ngModel" cols="30" name="address" [(ngModel)]="accountInfo.address" required="true" autoResize="autoResize" style="resize: none;width:100%;padding:10px" placeholder="Address"></textarea>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && address.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label" for="email" style="margin-right: 35px">Permanent residence</label>
+                                                    <div class="mr-2" style="display: inline-block;">
+                                                        <p-radioButton name="residence" value="1" label="Yes" [(ngModel)]="accountInfo.is_permanent_resident">
+                                                        </p-radioButton>
+                                                    </div>
+                                                    <div class="mr-2" style="display: inline-block;">
+                                                        <p-radioButton name="residence" value="0" [(ngModel)]="accountInfo.is_permanent_resident" label="No">
+                                                        </p-radioButton>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-panel>
+                                <p-panel header="Employment Status" collapsed="false" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+                                    <div class="tab-pane active">
+                                        <h4 class="head text-center">Employment Status</h4>
+                                        <br/>
+                                        <div class='row'>
+                                            <div class='col-md-12'>
+                                                <div class="row">
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="professionalStatus">
+                             Professional status</label>
+                                                            <div class="group selectOtn">
+                                                                <select class="form-control" disabled required name="professionalStatus" #professionalStatus="ngModel" [(ngModel)]="accountInfo.professional_status_id" required="true">
+                                         <option class="option" value="0" disabled="true" selected="true">Select status</option>
+                                        <option class="option"
+                                            *ngFor="let g of lookupSvc.getAttributeValues('attrProfessionalStatus')"
+                                            [ngValue]="g.id" >{{g.name}}</option>
+                                    </select>
+                                                            </div>
+
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && professionalStatus.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="companyName">Company name</label>
+                                                            <input #companyName="ngModel" disabled required id="companyName" name="companyName" type="text" placeholder="Company name" [(ngModel)]="accountInfo.company_name" pInputText>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && companyName.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="carrerPosition">
+                            Career position</label>
+                                                            <input #carrerPosition="ngModel" disabled required id="carrerPosition" name="carrerPosition" type="text" placeholder="Career position" [(ngModel)]="accountInfo.career_position" pInputText>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && carrerPosition.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-xs-12 col-sm-6'>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="bussinessNature">
+                            Business nature</label>
+                                                            <div class="group selectOtn">
+                                                                <select class="form-control" disabled required name="bussinessNature" #bussinessNature="ngModel" [(ngModel)]="accountInfo.business_nature_id" required="true">
+                                         <option class="option" value="0" disabled="true" selected="true">Select business nature</option>
+                                        <option class="option"
+                                            *ngFor="let g of lookupSvc.getAttributeValues('attrBusinessNature')"
+                                            [ngValue]="g.id" >{{g.name}}</option>
+                                    </select>
+                                                            </div>
+                                                            <div class="alert alert-danger" *ngIf="accountForm.submitted && bussinessNature.invalid">*Required</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-panel>
+                                <!-- <div class="tab-pane active">
+        <h4 class="head text-center">Financial and investment status</h4>
+        <br/>
+        <div class="row">
+        <div class='col-md-12'>
+            <h6 class="subTitle">Personal accounts</h6>
+        </div>
+        </div>
+        <div class='row mt-3'>
+          <div class='col-md-12'>
+            <div class="row">
+               <div class='col-xs-12 col-sm-6'>
+                  <div class="form-group">
+                    <label class="control-label" for="annualIncome">
+                        Annual Income</label> 
+                       <div class="group selectOtn"> 
+                          <select class="form-control"
+                                    id="annualIncome"  
+                                    required 
+                                    name="annualIncome" 
+                                    #annualIncome="ngModel" 
+                                    [(ngModel)]="accountInfo.annual_income_id" 
+                                    >
+                            <option class="option" 
+                                     value="0" 
+                                     disabled="true" 
+                                     >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrAnnualIncome')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                         </select>
+                        </div>             
+                         <div class="alert alert-danger" *ngIf="accountForm.submitted && annualIncome.invalid">*Required</div>
+                    </div>
+                </div>
+               <div class='col-xs-12 col-sm-6'>
+                  <div class="form-group">
+                    <label class="control-label" for="totalNetAssets">
+                        Total net asset value</label> 
+                       <div class="group selectOtn"> 
+                          <select class="form-control"
+                                    id="totalNetAssets"  
+                                    required 
+                                    name="totalNetAssets" 
+                                    #totalNetAssets="ngModel" 
+                                    [(ngModel)]="accountInfo.total_net_asset_value_id" 
+                                    >
+                            <option class="option" 
+                                     value="0" 
+                                     disabled="true" 
+                                     >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrTotalNetAssetValue')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                         </select>
+                        </div>             
+                         <div class="alert alert-danger" *ngIf="accountForm.submitted && totalNetAssets.invalid">*Required</div>
+                    </div>
+                </div>
+               <div class='col-xs-12 col-sm-6'>
+                  <div class="form-group">
+                    <label class="control-label" for="sourceOfFunds">
+                        Sources of funds</label> 
+                     <div class="form-group accountForm">
+                     <p-checkbox name="disclosure" *ngFor="let item of lookupSvc.getAttributeValues('attrSourcesOfFund')" 
+                     [value]="item.id" [label]="item.name" (onChange)="accountInfo.sources_of_found_ids=sourceOfFunds.toString()" [(ngModel)]="sourceOfFunds"></p-checkbox>
+                      <div class="alert alert-danger" *ngIf="accountForm.submitted && sourceOfFunds.length==0">*Required</div>
+                   </div>            
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-6'>
+                  <div class="form-group">
+                    <label class="control-label" for="investmentKnowledge">
+                        Investment knowledge</label> 
+                       <div class="group selectOtn"> 
+                          <select class="form-control"
+                                    id="investmentKnowledge"  
+                                    required 
+                                    name="investmentKnowledge" 
+                                    #investmentKnowledge="ngModel" 
+                                    [(ngModel)]="accountInfo.investment_knowledge_id" 
+                                    >
+                            <option class="option" 
+                                     value="0" 
+                                     disabled="true" 
+                                     >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrInvestmentKnowledge')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                         </select>
+                        </div>             
+                         <div class="alert alert-danger" *ngIf="accountForm.submitted && investmentKnowledge.invalid">*Required</div>
+                    </div>
+                </div>
+               <div class='col-xs-12 col-sm-6'>
+                  <div class="form-group">
+                    <label class="control-label" for="investmentObjective">
+                        Investment objective</label> 
+                       <div class="group selectOtn"> 
+                          <select class="form-control"
+                                    id="investmentObjective"  
+                                    required 
+                                    name="investmentObjective" 
+                                    #investmentObjective="ngModel" 
+                                    [(ngModel)]="accountInfo.investment_objective_id" 
+                                    >
+                            <option class="option" 
+                                     value="0" 
+                                     disabled="true" 
+                                     >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrInvestmentObjective')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                         </select>
+                        </div>             
+                         <div class="alert alert-danger" *ngIf="accountForm.submitted && investmentObjective.invalid">*Required</div>
+                    </div>
+                </div>
+               <div class='col-xs-12 col-sm-6'>
+                  <div class="form-group">
+                    <label class="control-label" for="frequencyOfTransaction">
+                        Frequency of transaction per month</label> 
+                       <div class="group selectOtn"> 
+                          <select class="form-control"
+                                    id="frequencyOfTransaction"  
+                                    required 
+                                    name="frequencyOfTransaction" 
+                                    #frequencyOfTransaction="ngModel" 
+                                    [(ngModel)]="accountInfo.frequency_of_transactions_per_month_id" 
+                                    >
+                            <option class="option" 
+                                     value="0" 
+                                     disabled="true" 
+                                     >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrFrequencyOfTransactions')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                         </select>
+                        </div>             
+                         <div class="alert alert-danger" *ngIf="accountForm.submitted && frequencyOfTransaction.invalid">*Required</div>
+                    </div>
+                </div>
+               <div class='col-xs-12 col-sm-6'>
+                  <div class="form-group">
+                    <label class="control-label" for="riskTolerance">
+                        Risk of tolerance</label> 
+                       <div class="group selectOtn"> 
+                          <select class="form-control"
+                                    id="riskTolerance"  
+                                    required 
+                                    name="riskTolerance" 
+                                    #riskTolerance="ngModel" 
+                                    [(ngModel)]="accountInfo.risk_tolerance_id" 
+                                    >
+                            <option class="option" 
+                                     value="0" 
+                                     disabled="true" 
+                                     >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrRiskTolerance')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                         </select>
+                        </div>             
+                         <div class="alert alert-danger" *ngIf="accountForm.submitted && riskTolerance.invalid">*Required</div>
+                    </div>
+                </div>                                                                                               
+               </div>
+             </div> 
+        </div>  
+        <div class="row mt-3">
+        <div class='col-md-12'>
+            <h6 class="subTitle">Investment experience</h6>
+        </div>
+        </div>
+        <div class='row mt-3'>
+            <div class='col-md-12'>
+                <div class="row">
+                    <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                             <label class="control-label" for="stock">
+                             Stock</label> 
+                               <div class="group selectOtn"> 
+                                    <select class="form-control"
+                                            id="stock"  
+                                            required 
+                                            name="stock" 
+                                            #stock="ngModel" 
+                                            [(ngModel)]="accountInfo.stock_experience_id" 
+                                            >
+                                         <option class="option" 
+                                                 value="0" 
+                                                 disabled="true" 
+                                                 >Select</option>
+                                         <option class="option"
+                                            *ngFor="let g of lookupSvc.getAttributeValues('attrExperience')"
+                                            [ngValue]="g.id" >{{g.name}}</option>
+                                    </select>
+                               </div>             
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && stock.invalid">*Required</div>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-6'>
+                         <div class="form-group">
+                             <label class="control-label" for="structuredProduct">
+                             Structured product</label> 
+                                <div class="group selectOtn"> 
+                                    <select class="form-control" 
+                                            id="structuredProduct" 
+                                            required 
+                                            name="structuredProduct" 
+                                            #structuredProduct="ngModel" 
+                                            [(ngModel)]="accountInfo.structured_product_experience_id" 
+                                            >
+                                         <option class="option" 
+                                                 value="0" 
+                                                 disabled="true" 
+                                                 >Select</option>
+                                         <option class="option"
+                                            *ngFor="let g of lookupSvc.getAttributeValues('attrExperience')"
+                                            [ngValue]="g.id" >{{g.name}}</option>
+                                    </select>
+                               </div>              
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && structuredProduct.invalid">*Required</div>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                             <label class="control-label" for="foreignCurrency">
+                             Foreign currency/Gold</label> 
+                                <div class="group selectOtn"> 
+                                    <select class="form-control" 
+                                            id="foreignCurrency" 
+                                            required 
+                                            name="foreignCurrency" 
+                                            #foreignCurrency="ngModel" 
+                                            [(ngModel)]="accountInfo.foreign_currency_gold_experience_id" 
+                                            >
+                                         <option class="option" 
+                                                 value="0" 
+                                                 disabled="true" 
+                                                 >Select</option>
+                                         <option class="option"
+                                            *ngFor="let g of lookupSvc.getAttributeValues('attrExperience')"
+                                            [ngValue]="g.id" >{{g.name}}</option>
+                                    </select>
+                               </div>             
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && foreignCurrency.invalid">*Required</div>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                             <label class="control-label" for="warrants">
+                             Warrants</label> 
+                              <div class="group selectOtn"> 
+                                 <select class="form-control" 
+                                        id="warrants" 
+                                        required 
+                                        name="warrants" 
+                                        #warrants="ngModel" 
+                                        [(ngModel)]="accountInfo.warrants_experience_id" 
+                                        >
+                                     <option class="option" 
+                                             value="0" 
+                                             disabled="true" 
+                                             >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrExperience')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                 </select>
+                              </div> 
+
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && warrants.invalid">*Required</div>
+                        </div>
+                    </div>
+                  <div class='col-xs-12 col-sm-6'>
+                      <div class="form-group">
+                           <label class="control-label" for="futures">
+                             Futures/Options</label> 
+                              <div class="group selectOtn"> 
+                                 <select class="form-control" 
+                                        id="futures" 
+                                        required 
+                                        name="futures" 
+                                        #futures="ngModel" 
+                                        [(ngModel)]="accountInfo.futures_options_experience_id" 
+                                        >
+                                     <option class="option" 
+                                             value="0" 
+                                             disabled="true" 
+                                             >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrExperience')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                 </select>
+                              </div>          
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && futures.invalid">*Required</div>
+                      </div>
+                  </div>
+                  <div class='col-xs-12 col-sm-6'>
+                      <div class="form-group">
+                           <label class="control-label" for="other">
+                             Other</label> 
+                              <div class="group selectOtn"> 
+                                 <select class="form-control" 
+                                        id="other" 
+                                        required 
+                                        name="other" 
+                                        #other="ngModel" 
+                                        [(ngModel)]="accountInfo.other_experience_id" 
+                                        >
+                                     <option class="option" 
+                                             value="0" 
+                                             disabled="true" 
+                                             >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrExperience')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                 </select>
+                              </div>          
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && other.invalid">*Required</div>
+                      </div>
+                  </div>
+                </div>
+                  <div class="row mb-3">
+                    <div class="col-md-12">
+                      <span style="color: #949494;">Derivatives Warrants / CBBCs / ETF / Options, etc.) Cognitive Evaluation</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                   <div class='col-xs-12 col-sm-6'>
+                      <div class="form-group">
+                           <label class="control-label" for="derivativesTrading">
+                             Derivatives trading</label> 
+                              <div class="group selectOtn"> 
+                                 <select class="form-control" 
+                                        id="derivativesTrading" 
+                                        required 
+                                        name="derivativesTrading" 
+                                        #derivativesTrading="ngModel" 
+                                        [(ngModel)]="accountInfo.derivatives_trading_id" 
+                                        >
+                                     <option class="option" 
+                                             value="0" 
+                                             disabled="true" 
+                                             >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrDerivativesTrading')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                 </select>
+                              </div>           
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && derivativesTrading.invalid">*Required</div>
+                      </div>
+                  </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+        <div class="tab-pane active">
+        <h4 class="head text-center">Other Information</h4>
+        <br/>
+        <div class='row'>
+            <div class='col-md-12'>
+               <div class="row mb-3">
+                  <div class="col-md-12">
+                   <h6 class="subTitle">Other information disclosure</h6>
+                  </div>
+                </div>
+              <div class="row">
+                 <div class='col-md-12'>
+                  <div class="form-group accountForm">
+                     <p-checkbox name="disclosure" *ngFor="let item of lookupSvc.getAttributeValues('attrTaxInformation')" 
+                     [value]="item.id" [label]="item.name" (onChange)="accountInfo.other_information_disclosure_ids=selectedDisclosureValues.toString()" [(ngModel)]="selectedDisclosureValues"></p-checkbox>
+                      <div class="alert alert-danger" *ngIf="accountForm.submitted && selectedDisclosureValues.length==0">*Required</div>
+                   </div>
+                </div>
+              </div>
+                <div class="row mb-3">
+                  <div class="col-md-12">
+                    <h6 class="subTitle">Tax Information</h6>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                             <label class="control-label" for="taxInformation">
+                             Tax information</label> 
+                              <div class="group selectOtn"> 
+                                 <select class="form-control" 
+                                        id="taxInformation" 
+                                        required 
+                                        name="taxInformation" 
+                                        #taxInformation="ngModel" 
+                                        [(ngModel)]="accountInfo.tax_information_id" 
+                                        >
+                                     <option class="option" 
+                                             value="0" 
+                                             disabled="true" 
+                                             >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrTaxInformation')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                 </select>
+                              </div>            
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && taxInformation.invalid">*Required</div>
+                        </div>
+                      </div>
+                      <div class='col-xs-12 col-sm-6'>
+                       <div class="form-group">
+                             <label class="control-label" for="taxCountry">
+                             Country / region </label> 
+                              <div class="group selectOtn"> 
+                                 <select class="form-control" 
+                                        id="taxCountry" 
+                                        required 
+                                        name="taxCountry" 
+                                        #taxCountry="ngModel" 
+                                        [(ngModel)]="accountInfo.tax_country_id" 
+                                        >
+                                     <option class="option" 
+                                             value="0" 
+                                             disabled="true" 
+                                             >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrCountry')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                 </select>
+                              </div> 
+
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && taxCountry.invalid">*Required</div>
+                        </div> 
+                      </div>
+                       <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                             <label class="control-label" for="taxId">
+                             Tax ID </label> 
+                                <input #taxId="ngModel" required id="taxId" name="taxId" type="text" placeholder="Tax ID" [(ngModel)]="accountInfo.tax_id" pInputText>
+
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && taxId.invalid">*Required</div>
+                        </div> 
+                      </div> 
+                </div>
+                <div class="row">
+                <div class='col-md-12'>
+                  <p style="color: #949494;">A tax resident is a tax resident in a certain place because he has a resident status in a certain place and is responsible for paying taxes locally.</p>
+                </div>
+                </div>
+                <div class="row">
+                <div class='col-md-12'>
+                    <h6 class="subTitle">W-8BEN</h6>
+                </div>
+                </div>
+                <div class="row">
+                    <div class='col-xs-12 col-sm-6'>
+                          <div class="form-group">
+                             <label class="control-label" for="w8benCountry">
+                             Country / region </label> 
+                              <div class="group selectOtn"> 
+                                 <select class="form-control" 
+                                        id="w8benCountry" 
+                                        required 
+                                        name="w8benCountry" 
+                                        #w8benCountry="ngModel" 
+                                        [(ngModel)]="accountInfo.w8ben_country_id" 
+                                        >
+                                     <option class="option" 
+                                             value="0" 
+                                             disabled="true" 
+                                             >Select</option>
+                                     <option class="option"
+                                        *ngFor="let g of lookupSvc.getAttributeValues('attrCountry')"
+                                        [ngValue]="g.id" >{{g.name}}</option>
+                                 </select>
+                              </div>          
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && w8benCountry.invalid">*Required</div>
+                        </div> 
+                      </div>
+                </div>
+
+                <div class="row">
+                <div class='col-md-12'>
+                  <p style="color: #949494;">Your country or territory is within the meaning of the income tax agreement between the United States and that country.</p>
+                </div>
+                </div>
+
+            </div>
+        </div>
+       </div>
+        <div class="tab-pane active">
+        <h4 class="head text-center">Account to open</h4>
+        <br/>
+        <div class='row'>
+            <div class='col-md-12'>
+              <div class="row">
+                 <div class='col-md-12'>
+                  <div class="form-group">
+                       <label class="control-label" for="securitiesAccount">
+                     Securities account</label> 
+                     <p-checkbox name="securitiesAccount" *ngFor="let item of lookupSvc.getAttributeValues('attrSecuritiesAccount')" 
+                     [value]="item.id" [label]="item.name" [(ngModel)]="selectedSecuritiesAccount" (onChange)="accountInfo.securities_account_ids=selectedSecuritiesAccount.toString()" ></p-checkbox>
+                    <div class="alert alert-danger" *ngIf="accountForm.submitted && selectedSecuritiesAccount.length==0">*Required</div>
+                   </div>
+                </div>
+              </div>
+                <div class="row">
+                    <div class='col-md-12'>
+                        <div class="form-group">
+                             <label class="control-label" for="fundAccount">
+                             Fund account</label> 
+                              <p-checkbox name="fundAccount" *ngFor="let item of lookupSvc.getAttributeValues('attrFoundAccount')" 
+                               [value]="item.id" [label]="item.name" [(ngModel)]="selectedFundAccount" (onChange)="accountInfo.found_account_ids=selectedFundAccount.toString()"></p-checkbox>
+                            <div class="alert alert-danger" *ngIf="accountForm.submitted && selectedFundAccount.length==0">*Required</div>
+                        </div>
+                    </div>
+                </div>
+                  <div class="row" *ngIf="showSaveErrored">
+                      <div class='col-md-12'>
+                          <div class="form-group">
+                           <div class="alert alert-danger">
+                              <div *ngIf="errors.length > 0 then errorList else errorGeneric"></div>
+
+                              <ng-template #errorList>
+                                  <ul>
+                                      <li *ngFor="let error of errors">{{error}}</li>
+                                  </ul>
+                              </ng-template>
+
+                              <ng-template #errorGeneric>
+                                  <li *ngFor="let error of errors">{{error}}</li>
+                              </ng-template>
+                          </div>
+                  </div>
+                </div>
+              </div>
+                <div class="form-group text-center">
+                    <button class="primary"  (click)="submitForm(accountForm)"> Update <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+            </div>
+        </div>
+        </div> -->
+                            </form>
+                        </p-fieldset>
+                    </div>
+                    <div class="col-md-4" *ngIf="account">
+                        <p-fieldset legend="Account">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>Approved</p>
+                                    <input type="radio" name="accountComplete" id="accountComplete-1" class="radio-button" value="1" [checked]="account.approved == 1" (change)="account.approved = 1" />
+                                    <label for="accountComplete-1" class="radio-button-click-target">
+                            <span class="radio-button-circle"></span>Yes
+                          </label>
+                                    <input type="radio" name="accountComplete" id="accountComplete-2" class="radio-button" value="0" [checked]="account.approved == 0" (change)="account.approved = 0" />
+                                    <label for="accountComplete-2" class="radio-button-click-target">
+                            <span class="radio-button-circle"></span>No
+                          </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="primary" (click)="updateAccount()" style="min-width:80px">Update</button>
+                                </div>
+                            </div>
+                        </p-fieldset>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

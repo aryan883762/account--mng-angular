@@ -1,0 +1,54 @@
+
+<div class="gradient">
+    <div class="area container" style="z-index: unset;">
+        <div class="row">
+          <div class="col-md-5">     
+          <p-card header="{{'withdraw_fund_text'|translate}}" styleClass="ui-card-shadow">
+		       <div>   	
+		        <form class="custom" #withdrawForm="ngForm"  novalidate>
+      			  <label for="currency">{{'currency_text'|translate}}</label>
+      			  <input type="text" id="currency" name="currency" disabled="true" [(ngModel)]="withdraw.currency" placeholder="Currency" required />
+
+      			  <label for="amount">{{'amount_text'|translate}}</label>
+      			  <input type="text" id="amount" name="amount" [(ngModel)]="withdraw.amount" placeholder="0.00" required />
+
+              <label for="bankName">{{'bank_name_text'|translate}}</label>
+              <input type="text" id="bankName" name="bankName" [(ngModel)]="withdraw.bankName" placeholder="{{'bank_name_text'|translate}}" required />
+
+              <label for="accNumber">{{'account_number_text'|translate}}</label>
+              <input type="text" id="accNumber" name="accNumber" [(ngModel)]="withdraw.accNumber" placeholder="{{'account_number_text'|translate}}" required />
+
+              <label for="accountHolder">{{'account_holder_name_text'|translate}}</label>
+              <input type="text" id="accountHolder" name="accountHolder" [(ngModel)]="withdraw.accountHolder" 
+              placeholder="{{'account_holder_name_text'|translate}}" required />
+
+              <textarea rows="5" cols="30" name="remark" [(ngModel)]="withdraw.remark" autoResize="autoResize" style="resize: none;width:100%;padding:10px" placeholder="{{'remark_text'|translate}}"></textarea>
+
+      			  <button type="submit" 
+                      class="primary" 
+                      value="Withdraw"  
+                      (click)="withdrawApply(withdrawForm)">{{'withdraw'|translate}}</button>
+                      
+              <p-progressSpinner *ngIf="isApplying" 
+                     [style]="{width: '50px', height: '50px', position:'absolute'}" 
+                     strokeWidth="2" 
+                     fill="#EEEEEE" 
+                     animationDuration=".8s">
+                       
+                     </p-progressSpinner>
+			</form>
+
+		    </div>
+		   </p-card>
+        </div>
+          <div class="col-md-7">
+          <p-card subheader="{{'transactions_text'|translate}}" styleClass="ui-card-shadow">
+          	<p class="loading" *ngIf="isLoading">{{'loading'|translate}}...</p>
+            <transaction-list  *ngIf="!isLoading" 
+                               [transaction]="transaction">
+                               </transaction-list>
+         </p-card>
+        </div>
+       </div>
+    </div>
+</div>

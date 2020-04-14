@@ -1,0 +1,28 @@
+<form class="admin" #f="ngForm" (ngSubmit)="login(f.form.valid)" novalidate autocomplete="off">
+	
+	<h2>Admin Login</h2>
+	
+	<input #email="ngModel" 
+	       type="email" 
+	       name="email" 
+	       [(ngModel)]="credentials.email" 
+	       placeholder="Email" 
+	       required email maxlength="256" 
+	       class="text-field" />
+
+
+    <input #password="ngModel" 
+           type="password" 
+           name="password" 
+           [(ngModel)]="credentials.password" 
+           placeholder="Password"
+           required maxlength="100" 
+           class="text-field"/>
+
+    <a href="javascript:void(0)">
+    	<input type="submit"  class="button" value="Log In" />
+    </a>
+      <div class="validation-summary text-left" *ngIf="error">
+            {{error}}    
+    </div>
+</form>

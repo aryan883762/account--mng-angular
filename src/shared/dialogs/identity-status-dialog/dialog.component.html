@@ -1,0 +1,189 @@
+<ng-container *ngIf="dialogVisible">
+    <form #documentForm="ngForm" class="editForm" novalidate>
+        <p-dialog autoAlign="true" blockScroll="true" modal="true" width="auto" ngClass="custom-dialog sm" [resizable]="false" [closable]="false" [(visible)]="dialogVisible">
+            <p-header ngClsass="popup-header">
+                <h2>{{'upload_center_text'|translate}}</h2>
+                <span class="ij icon x-icon" (click)="hideDialog()"></span>
+            </p-header>
+
+            <article class="dialog-container">
+                <div class="dialog-body">
+                    <div class="tab-pane active">
+                    </div>
+                    <p-panel header="{{'account_information_text'|translate}}" [style]="{'margin-bottom':'20px'}">
+                        <div class="row mt-3">
+                            <div class="col-md-12 text-center">
+                                <p-selectButton [options]="types" name="document" [(ngModel)]="selectedType"></p-selectButton>
+                            </div>
+                        </div>
+                        <div class="row mt-3 identityInformation" [ngSwitch]="selectedType">
+                            <ng-template [ngSwitchCase]="'company_br'">
+                                <div class="col-md-12 text-center" *ngIf="!docs['company_br']">
+                                    <h2 class="text-danger">
+                                        {{'pending'|translate}}! {{'company_br_not_uploaded_text'|translate}} (Required).
+
+                                    </h2>
+                                    <button class="primary" (click)="identityVarification('company_br')"> {{'upload_now_text'|translate}}</button>
+                                </div>
+                                <div class="container" *ngIf="docs['company_br']">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <label class="control-label" for="companyBRStatus">
+                            {{'status_text'|translate}}: </label>
+                                                    <span [ngClass]="{'text-warning':companyBR.status=='pending', 'text-success': companyBR.status=='success', 'text-danger':companyBR.status=='failed'}"> {{companyBR.status|translate}}</span>
+                                                    <br>
+                                                    <label class="control-label" for="companyBRReason">
+                             {{'reason_text'|translate}}: </label>
+                                                    <span> {{(companyBR.reason)?companyBR.reason:'under_review_text'|translate}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <a [href]="companyBR.doc_url" target="_blank" *ngIf="!checkURL(companyBR.doc_url)" style="word-break: break-all;">{{companyBR.doc_url}}</a>
+                                                    <a [href]="companyBR.doc_url" target="_blank" *ngIf="checkURL(companyBR.doc_url)"><img [src]="companyBR.doc_url"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="'id_card'">
+                                <div class="col-md-12 text-center" *ngIf="!docs['id_card']">
+                                    <h2 class="text-danger">
+                                        {{'pending'|translate}}! {{'ID_card_pending'|translate}} (*{{'required_text'|translate}}).
+                                    </h2>
+                                    <button class="primary" (click)="identityVarification('id_card')">{{'upload_now_text'|translate}}</button>
+                                </div>
+                                <div class="container" *ngIf="docs['id_card']">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <label class="control-label" for="idCardStatus">
+                             {{'status_text'|translate}}: </label>
+                                                    <span [ngClass]="{'text-warning':idCard.status=='pending', 'text-success': idCard.status=='success', 'text-danger':idCard.status=='failed'}"> {{idCard.status|translate}}</span>
+                                                    <br>
+                                                    <label class="control-label" for="idCardReason">
+                            {{'reason_text'|translate}}: </label>
+                                                    <span> {{(idCard.reason)?idCard.reason:'under_review_text'|translate}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <a [href]="idCard.doc_url" target="_blank" *ngIf="!checkURL(idCard.doc_url)" style="word-break: break-all;">{{idCard.doc_url}}</a>
+                                                    <a [href]="idCard.doc_url" target="_blank" *ngIf="checkURL(idCard.doc_url)"><img [src]="idCard.doc_url"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="'address'">
+                                <div class="col-md-12 text-center" *ngIf="!docs['address']">
+                                    <h2 class="text-danger">
+                                        {{'pending'|translate}}! {{'address_proof_pending'|translate}} (*{{'required_text'|translate}}).
+                                    </h2>
+                                    <button class="primary" (click)="identityVarification('address')">{{'upload_now_text'|translate}}</button>
+                                </div>
+                                <div class="container" *ngIf="docs['address']">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <label class="control-label" for="addressStatus">
+                             {{'status_text'|translate}}: </label>
+                                                    <span [ngClass]="{'text-warning':address.status=='pending', 'text-success': address.status=='success', 'text-danger':address.status=='failed'}"> {{address.status|translate}}</span>
+                                                    <br>
+                                                    <label class="control-label" for="addressReason">
+                            {{'reason_text'|translate}}: </label>
+                                                    <span> {{(address.reason)?address.reason:'under_review_text'|translate}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <a [href]="address.doc_url" target="_blank" *ngIf="!checkURL(address.doc_url)" style="word-break: break-all;">{{address.doc_url}}</a>
+                                                    <a [href]="address.doc_url" target="_blank" *ngIf="checkURL(address.doc_url)"><img [src]="address.doc_url"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="'bank_book'">
+                                <div class="col-md-12 text-center" *ngIf="!docs['bank_book']">
+                                    <h2 class="text-danger">
+                                        {{'pending'|translate}}! {{'bank_book_pendng'|translate}} (*{{'required_text'|translate}}).
+                                    </h2>
+                                    <p>First page of Bank book</p>
+                                    <button class="primary" (click)="identityVarification('bank_book')">{{'upload_now_text'|translate}}</button>
+                                </div>
+                                <div class="container" *ngIf="docs['bank_book']">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <label class="control-label" for="bank_bookStatus">
+                            {{'status_text'|translate}}: </label>
+                                                    <span [ngClass]="{'text-warning':bank_book.status=='pending', 'text-success': bank_book.status=='success', 'text-danger':bank_book.status=='failed'}"> {{bank_book.status|translate}}</span>
+                                                    <br>
+                                                    <label class="control-label" for="bank_bookReason">
+                           {{'reason_text'|translate}}: </label>
+                                                    <span> {{(bank_book.reason)?bank_book.reason:'under_review_text'|translate}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <a [href]="bank_book.doc_url" target="_blank" *ngIf="!checkURL(bank_book.doc_url)" style="word-break: break-all;">{{bank_book.doc_url}}</a>
+                                                    <a [href]="bank_book.doc_url" target="_blank" *ngIf="checkURL(bank_book.doc_url)"><img [src]="bank_book.doc_url"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="'w8-ban'">
+                                <div class="col-md-12 text-center" *ngIf="!docs['w8-ban']">
+                                    <h2 class="text-danger">
+                                     {{'w8_ban_pending'|translate}} ({{'optional'|translate}})
+                                    </h2>
+                                    <button class="primary" (click)="identityVarification('w8-ban')">{{'upload_now_text'|translate}}</button>
+                                </div>
+                                <div class="container" *ngIf="docs['w8-ban']">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <label class="control-label" for="w8_banStatus">
+                          {{'status_text'|translate}}: </label>
+                                                    <span [ngClass]="{'text-warning':w8_ban.status=='pending', 'text-success': w8_ban.status=='success', 'text-danger':w8_ban.status=='failed'}"> {{w8_ban.status|translate}}</span>
+                                                    <br>
+                                                    <label class="control-label" for="w8_banReason">
+                         {{'reason_text'|translate}}: </label>
+                                                    <span> {{(w8_ban.reason)?w8_ban.reason:'under_review_text'|translate}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <a [href]="w8_ban.doc_url" target="_blank" *ngIf="!checkURL(w8_ban.doc_url)" style="word-break: break-all;">{{w8_ban.doc_url}}</a>
+                                                    <a [href]="w8_ban.doc_url" target="_blank" *ngIf="checkURL(w8_ban.doc_url)"><img [src]="w8_ban.doc_url"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template ngSwitchDefault> No Documents </ng-template>
+                        </div>
+                    </p-panel>
+
+                </div>
+            </article>
+            <p-footer>
+                <!--       <button type="button" pButton label="Close" (click)="hideDialog()"></button> -->
+            </p-footer>
+        </p-dialog>
+    </form>
+</ng-container>

@@ -1,0 +1,34 @@
+
+<section style="background:#efefe9;">
+    <div class="container" style="z-index: unset">
+        <div class="row">
+            <div class="col-md-3"> 
+            <div class="box arrow-right">
+        {{'cash_account_text'|translate}}
+            </div>
+            </div>
+            <div class="col-md-9">
+            <div class="board">
+            <!-- Navigation Area (Circular Tabs) -->
+            <msw-navbar></msw-navbar>
+            <!-- End Navigation Area (Circular Tabs) -->
+  
+            <!-- Content Area -->
+            <div class="tab-content">
+                <!-- Nested view  -->
+                <router-outlet></router-outlet>
+            </div>
+            <!-- End Content Area -->
+           </div>
+              <!-- For Debugging: show our valid formData -->
+             <!--    <pre>{{ formData | json }}</pre> -->
+            </div>
+            
+        </div>
+   
+  
+     
+    </div>
+  </section>
+  <success-dialog></success-dialog>
+  <error-dialog></error-dialog>

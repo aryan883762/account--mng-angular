@@ -1,0 +1,30 @@
+.headerDiv{
+	display: inline-flex;
+	margin: 10px 0;
+	img{
+	     width: 350px;
+	}
+	&.headerLanguage{
+	float: right;
+	a.language {
+		color: #595656;
+		}
+	a.language.active {
+		color: #007ad9;
+		}
+	}
+}
+@media only screen and (max-width: 445px) {
+   .headerLanguage{
+	span {
+	   color: #ebebe4!important;
+	 }
+	a.language {
+		 color: #000000!important;
+		}
+	a.language.active {
+		color: #ffffff!important;
+		}
+	}
+}
+

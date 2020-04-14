@@ -1,0 +1,56 @@
+@import './common';
+
+@header-bg-height: 210px;
+
+.header-common {    
+    background-color: #54718F;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+
+    h1, h2 {
+        letter-spacing: 0;
+        .font-light(); 
+    }
+}
+
+button.action {
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 0.4px;
+    
+    &.funds {
+        background: @btn-refer-color;
+    }
+
+    &.availability {
+        background: @btn-availability-color;
+    }
+
+    &.contact {
+        background: @primary-orange-light;
+    }
+
+    &.about {
+        background: @btn-hire-color;
+    }
+}
+.verfication{
+    font-size: 13px;
+}
+.verified{
+    display: block;
+}
+
+@media only screen and (max-width: 992px) {
+#profile-header-desktop .misc .actions li:not(:last-of-type) {
+    margin-right: 0px!important;
+    margin-bottom: 5px!important;
+}
+#profile-header-desktop .misc .actions li{
+    button{
+     width: 107px!important;
+    }
+}
+}

@@ -1,0 +1,35 @@
+<!-- <login-header></login-header> -->
+<div class="lb-header">
+    <a routerLink="/signIn" routerLinkActive="active" id="login-box-link">{{'login_text'|translate}}</a>
+    <!-- <a routerLink="register" routerLinkActive="active"  id="signup-box-link">{{'registration'|translate}}</a> -->
+  </div>
+<section id="account-container" class="form-widget mar-top">
+<form #f="ngForm" (ngSubmit)="login(f.form.valid)" novalidate autocomplete="off">
+
+    <div class="group" [ngClass]="{invalid: this.submitted && email.invalid}">
+        <i class="fa fa-user icon"></i>
+        <input  #email="ngModel" type="email" name="email" [(ngModel)]="credentials.email" placeholder="{{'Email_address'|translate}}"  required email maxlength="256" />
+    </div>
+
+    <div class="group no-mar-btm" [ngClass]="{invalid: this.submitted && password.invalid}">
+       <i class="fa fa-lock icon"></i>
+        <input #password="ngModel" type="password" name="password" [(ngModel)]="credentials.password" placeholder="{{'password_txt'|translate}}" required maxlength="100" />
+    </div>
+
+    <div class="validation-summary text-left" *ngIf="error">
+            {{error|translate}}.    
+    </div>
+
+    <div class="group text-left">
+    <a href="javascript:void(0)" (click)="forgotPassword()">{{'forgot_password_text'|translate}}?</a>
+    </div>
+
+    <footer class="group no-mar-top">
+        <input type="submit" id="account-btn" value="{{'sign_in_text'|translate}}" />
+    </footer>
+
+    <p id="register-with-us">
+        <strong><a routerLink="../register"> {{'Open_a_new_Account'|translate}} </a></strong>
+    </p>
+</form>
+</section>

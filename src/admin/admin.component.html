@@ -1,0 +1,47 @@
+<header role="banner">
+    <h1>Admin Panel</h1>
+    <ul class="utilities">
+      <li class="users">
+        <div class="half">
+          <label for="profile2" class="profile-dropdown" style="height:60px">
+            <input type="checkbox" id="profile2">
+            <img src="https://cdn0.iconfinder.com/data/icons/avatars-3/512/avatar_hipster_guy-512.png">
+            <span>Admin</span>
+            <label for="profile2"  ><i class="fa fa-bars"></i></label>
+            <ul>
+              <!-- <li><a href="#"><i class="mdi mdi-email-outline"></i>Messages</a></li>
+              <li><a href="#"><i class="mdi mdi-account"></i>Account</a></li>
+              <li><a href="#"><i class="mdi mdi-settings"></i>Settings</a></li> -->
+              <li><a href="javascript:void(0)" (click)="logout()"><i class="mdi mdi-logout"></i>Logout</a></li>
+            </ul>
+          </label>
+        </div>
+      
+      </li>
+    </ul>
+  </header>
+  
+  <nav role="navigation">
+    <ul class="main">
+      <li class="dashboard"><a routerLink="dashboard" routerLinkActive="active-link"><i class="fa fa-th"></i> Dashboard</a></li>
+      <li class="write"><a routerLink="clients-management" routerLinkActive="active-link"> <i class="fa fa-users"></i> Manage clients</a></li>
+      <li class="edit"><a routerLink="transaction-management" routerLinkActive="active-link"><i class="fa fa-history"></i> Manage transaction</a></li>
+      <li class="comments"><a routerLink="account-management" routerLinkActive="active-link"> <i class="fa fa-tasks"></i> Account management</a></li>
+      <!-- <li class="users"><a ><i class="fa fa-calendar-minus"></i> Transaction history</a></li> -->
+    </ul>
+  </nav>
+  
+   <main role="main" class="admin-main">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+           <p-toast [style]="{marginTop: '80px'}"></p-toast>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer role="contentinfo">&copy; Copyright 2020</footer>
+  <indentity-preview-dialog></indentity-preview-dialog>
+  <success-dialog></success-dialog>
+  <error-dialog></error-dialog>

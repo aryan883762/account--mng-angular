@@ -1,0 +1,173 @@
+@import '../../styles/variables/all';
+@import '../styles/common';
+
+.custom-dialog ::ng-deep .ui-dialog {
+    max-width: 400px;
+    .ui-dialog-titlebar{
+        border-top: 8px solid #3F93F5;
+        padding: 1em 1.5em;
+        h2{
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    }
+    .ui-dialog-content{
+        .dialog-container{
+            padding: 0 40px 0px 40px!important;
+            .project-detail{
+                font-weight: 600;
+                margin: 10px 0;
+            }
+            .dialog-body{
+                margin-bottom: 10px;
+                text-align: center;
+            }
+        }
+    }
+    .ui-dialog-footer{
+        text-align: center;
+    }
+}
+/* File upload css */
+.file-upload {
+  background-color: #ffffff;
+  margin: 0 auto;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #374b60;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #e4e4e4;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.file-upload-btn:hover {
+  background: #5b8ab1;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.file-upload-content {
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  border: 4px dashed #e4e4e4;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+ background-color: #e9e9e9b3;
+ border: 4px dashed #374b60;
+}
+
+.image-title-wrap {
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text h6 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #374b60;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  height: 150px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #e4e4e4;
+}
+
+.remove-image {
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  border-radius: 4px;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+}
+
+.remove-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+
+/* custom radio*/
+
+
+.cc-selector-2 input {
+  position: absolute;
+  z-index: 999;
+}
+
+.idCard {
+  background-image: url(../../../assets/images/ID.png);
+}
+
+.addressCard {
+  background-image: url(../../../assets/images/Address.png);
+  background-size: cover!important;
+}
+
+.cc-selector-2 input:active +.document-cc {
+  opacity: .9;
+}
+
+.cc-selector-2 input:checked +.document-cc{
+  -webkit-filter: none;
+  -moz-filter: none;
+  filter: none;
+}
+
+.document-cc {
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 83px;
+  height: 65px;
+  -webkit-transition: all 100ms ease-in;
+  -moz-transition: all 100ms ease-in;
+  transition: all 100ms ease-in;
+  -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+  -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+  filter: brightness(1.8) grayscale(1) opacity(.7);
+}
+
+.document-cc:hover {
+  -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+  -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+  filter: brightness(1.2) grayscale(.5) opacity(.9);
+}

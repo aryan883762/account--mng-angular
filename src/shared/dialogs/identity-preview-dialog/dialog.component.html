@@ -1,0 +1,190 @@
+<ng-container *ngIf="dialogVisible">
+    <form #documentForm="ngForm" class="editForm" novalidate>
+        <p-dialog autoAlign="true" blockScroll="true" modal="true" width="auto" ngClass="custom-dialog sm" [resizable]="false" [closable]="false" [(visible)]="dialogVisible">
+            <p-header ngClsass="popup-header">
+                <h2>{{'document_verification_text'|translate}}</h2>
+                <span class="ij icon x-icon" (click)="hideDialog()"></span>
+            </p-header>
+
+            <article class="dialog-container">
+                <div class="dialog-body">
+                    <div class="tab-pane active">
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <p-selectButton [options]="types" name="document" [(ngModel)]="selectedType"></p-selectButton>
+                        </div>
+                    </div>
+                    <div class="row mt-3" [ngSwitch]="selectedType">
+                        <ng-template [ngSwitchCase]="'company_br'">
+                            <h2 class="text-danger" *ngIf="!docs['company_br']">
+                                {{'pending'|translate}}! {{'company_br_pending'|translate}}.
+                            </h2>
+                            <div class="row" *ngIf="docs['company_br']">
+                                <div class="col-md-5">
+                                    <a [href]="company_br.doc_url" target="_blank" *ngIf="!checkURL(company_br.doc_url)" style="word-break: break-all;">{{company_br.doc_url}}</a>
+                                    <a [href]="company_br.doc_url" target="_blank" *ngIf="checkURL(company_br.doc_url)"><img [src]="company_br.doc_url"></a>
+                                </div>
+                                <div class="col-md-7" style="text-align: left;">
+                                    <div class="form-group">
+                                        <label class="control-label" for="company_brStatus">
+                                 Status</label>
+                                        <div class="group selectOtn">
+                                            <select class="form-control" required name="status" #company_brStatus="ngModel" [(ngModel)]="company_br.status" required="true">
+                                      <option class="option" value="0" disabled="true" selected="true">Select status</option>
+                                      <option class="option" value="pending">Pendig</option>
+                                      <option class="option" value="success">Success</option>
+                                      <option class="option" value="fail">Fail</option>
+                                     </select>
+                                        </div>
+                                        <div class="alert alert-danger" *ngIf="documentForm.submitted && company_brStatus.invalid">*Required</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="company_brReason">
+                                 *Reason</label>
+                                        <textarea rows="3" id="company_brReason" #company_brReason="ngModel" cols="30" name="company_brReason" [(ngModel)]="company_br.reason" required="true" autoResize="autoResize" style="resize: none;width:100%;padding:10px" placeholder="Reason"></textarea>
+                                        <div class="alert alert-danger" *ngIf="documentForm.submitted && company_brReason.invalid">*Required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="'id_card'">
+                            <h2 class="text-danger" *ngIf="!docs['id_card']">
+                                {{'pending'|translate}}! {{'ID_card_pending'|translate}}.
+                            </h2>
+                            <div class="row" *ngIf="docs['id_card']">
+                                <div class="col-md-5">
+                                    <a [href]="idCard.doc_url" target="_blank" *ngIf="!checkURL(idCard.doc_url)" style="word-break: break-all;">{{idCard.doc_url}}</a>
+                                    <a [href]="idCard.doc_url" target="_blank" *ngIf="checkURL(idCard.doc_url)"><img [src]="idCard.doc_url"></a>
+                                </div>
+                                <div class="col-md-7" style="text-align: left;">
+                                    <div class="form-group">
+                                        <label class="control-label" for="idCardStatus">
+                            Status</label>
+                                        <div class="group selectOtn">
+                                            <select class="form-control" required name="status" #idCardStatus="ngModel" [(ngModel)]="idCard.status" required="true">
+                                 <option class="option" value="0" disabled="true" selected="true">Select status</option>
+                                 <option class="option" value="pending">Pendig</option>
+                                 <option class="option" value="success">Success</option>
+                                 <option class="option" value="fail">Fail</option>
+                                </select>
+                                        </div>
+                                        <div class="alert alert-danger" *ngIf="documentForm.submitted && idCardStatus.invalid">*Required</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="idCardReason">
+                            *Reason</label>
+                                        <textarea rows="3" id="idCardReason" #idCardReason="ngModel" cols="30" name="idCardReason" [(ngModel)]="idCard.reason" required="true" autoResize="autoResize" style="resize: none;width:100%;padding:10px" placeholder="Reason"></textarea>
+                                        <div class="alert alert-danger" *ngIf="documentForm.submitted && idCardReason.invalid">*Required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="'address'">
+                            <h2 class="text-danger" *ngIf="!docs['address']">
+                                {{'pending'|translate}}! {{'address_proof_pending'|translate}}.
+                            </h2>
+                            <div class="row" *ngIf="docs['address']">
+                                <div class="col-md-5">
+                                    <a [href]="address.doc_url" target="_blank" *ngIf="!checkURL(address.doc_url)" style="word-break: break-all;">{{address.doc_url}}</a>
+                                    <a [href]="address.doc_url" target="_blank" *ngIf="checkURL(address.doc_url)"><img [src]="address.doc_url"></a>
+                                </div>
+                                <div class="col-md-7" style="text-align: left;">
+                                    <div class="form-group">
+                                        <label class="control-label" for="addressStatus">
+                            Status</label>
+                                        <div class="group selectOtn">
+                                            <select class="form-control" required name="status" #addressStatus="ngModel" [(ngModel)]="address.status" required="true">
+                                 <option class="option" value="0" disabled="true" selected="true">Select status</option>
+                                 <option class="option" value="pending">Pendig</option>
+                                 <option class="option" value="success">Success</option>
+                                 <option class="option" value="fail">Fail</option>
+                                </select>
+                                        </div>
+                                        <div class="alert alert-danger" *ngIf="documentForm.submitted && address.invalid">*Required</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="addressReason">
+                            *Reason</label>
+                                        <textarea rows="3" id="addressReason" #addressReason="ngModel" cols="30" name="addressReason" [(ngModel)]="address.reason" required="true" autoResize="autoResize" style="resize: none;width:100%;padding:10px" placeholder="Reason"></textarea>
+                                        <div class="alert alert-danger" *ngIf="documentForm.submitted && addressReason.invalid">*Required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="'bank_book'">
+                            <h2 class="text-danger" *ngIf="!docs['bank_book']">
+                                {{'pending'|translate}}! {{'bank_book_pendng'|translate}}.
+                            </h2>
+                            <div class="row" *ngIf="docs['bank_book']">
+                                <div class="col-md-5">
+                                    <a [href]="bank_book.doc_url" target="_blank" *ngIf="!checkURL(bank_book.doc_url)" style="word-break: break-all;">{{bank_book.doc_url}}</a>
+                                    <a [href]="bank_book.doc_url" target="_blank" *ngIf="checkURL(bank_book.doc_url)"><img [src]="bank_book.doc_url"></a>
+                                </div>
+                                <div class="col-md-7" style="text-align: left;">
+                                    <div class="form-group">
+                                        <label class="control-label" for="bank_bookStatus">
+                               Status</label>
+                                        <div class="group selectOtn">
+                                            <select class="form-control" required name="status" #bank_bookStatus="ngModel" [(ngModel)]="bank_book.status" required="true">
+                                    <option class="option" value="0" disabled="true" selected="true">Select status</option>
+                                    <option class="option" value="pending">Pendig</option>
+                                    <option class="option" value="success">Success</option>
+                                    <option class="option" value="fail">Fail</option>
+                                   </select>
+                                        </div>
+                                        <div class="alert alert-danger" *ngIf="documentForm.submitted && bank_bookStatus.invalid">*Required</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="bank_bookReason">
+                               *Reason</label>
+                                        <textarea rows="3" id="bank_bookReason" #bank_bookReason="ngModel" cols="30" name="bank_bookReason" [(ngModel)]="bank_book.reason" required="true" autoResize="autoResize" style="resize: none;width:100%;padding:10px" placeholder="Reason"></textarea>
+                                        <div class="alert alert-danger" *ngIf="documentForm.submitted && bank_bookReason.invalid">*Required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="'w8-ban'">
+                            <h2 class="text-danger" *ngIf="!docs['w8-ban']">
+                                {{'pending'|translate}}! {{'w8-ban_proof_not_upload_text'|translate}}.
+                            </h2>
+                            <div class="row" *ngIf="docs['w8-ban']">
+                                <div class="col-md-5">
+                                    <a [href]="w8_ban.doc_url" target="_blank" *ngIf="!checkURL(w8_ban.doc_url)" style="word-break: break-all;">{{w8_ban.doc_url}}</a>
+                                    <a [href]="w8_ban.doc_url" target="_blank" *ngIf="checkURL(w8_ban.doc_url)"><img [src]="w8_ban.doc_url"></a>
+                                </div>
+                                <div class="col-md-7" style="text-align: left;">
+                                    <div class="form-group">
+                                        <label class="control-label" for="w8_banStatus">
+                             Status</label>
+                                        <div class="group selectOtn">
+                                            <select class="form-control" required name="status" #w8_banStatus="ngModel" [(ngModel)]="w8_ban.status" required="true">
+                                  <option class="option" value="0" disabled="true" selected="true">Select status</option>
+                                  <option class="option" value="pending">Pendig</option>
+                                  <option class="option" value="success">Success</option>
+                                  <option class="option" value="fail">Fail</option>
+                                 </select>
+                                        </div>
+                                        <div class="alert alert-danger" *ngIf="documentForm.submitted && w8_banStatus.invalid">*Required</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="w8_banReason">
+                             *Reason</label>
+                                        <textarea rows="3" id="w8_banReason" #w8_banReason="ngModel" cols="30" name="w8_banReason" [(ngModel)]="w8_ban.reason" required="true" autoResize="autoResize" style="resize: none;width:100%;padding:10px" placeholder="Reason"></textarea>
+                                        <div class="alert alert-danger" *ngIf="documentForm.submitted && w8_banReason.invalid">*Required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template ngSwitchDefault> No Documents </ng-template>
+                    </div>
+
+                </div>
+            </article>
+            <p-footer>
+                <button type="button" pButton label="Close" (click)="hideDialog()"></button>
+                <button type="submit" pButton label="Update" (click)="updateIdentityStatus(documentForm)"></button>
+            </p-footer>
+        </p-dialog>
+    </form>
+</ng-container>

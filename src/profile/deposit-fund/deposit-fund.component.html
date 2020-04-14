@@ -1,0 +1,92 @@
+
+<div class="gradient deposit">
+    <div class="area container" style="z-index: unset;">
+        <div class="row">
+          <div class="col-md-5">     
+          <p-card header="{{'deposit_fund_text'|translate}}" styleClass="ui-card-shadow">
+		  <div>	
+		  <form class="custom" #depositForm="ngForm"  novalidate>
+		  	  <label for="bank">{{'bank_text'|translate}}</label><br>
+	            <div class="group selectOtn"> 
+	                <select class="form-control" required name="bank" #bank="ngModel" [(ngModel)]="deposit.bank" required="true">
+	                     <option class="option" value="0" disabled="true" selected="true">{{'select_text'|translate}}</option>
+	                    <option class="option"
+	                        *ngFor="let g of lookupSvc.getAttributeValues('attrBank')"
+	                        [ngValue]="g.id" >{{g.name}}</option>
+	                </select>
+	            </div>
+			  <label for="currency">{{'currency_text'|translate}}</label>
+			  <input type="text" 
+			         id="currency" 
+			         name="currency" 
+			         disabled="true" 
+			         [(ngModel)]="deposit.currency" 
+			         #currency="ngModel" 
+			         placeholder="{{'currency_text'|translate}}" 
+			         required />
+
+			  <label for="amount">{{'amount_text'|translate}}</label>
+			  <input type="text" 
+			         id="amount" 
+			         name="amount" 
+			         [(ngModel)]="deposit.amount" 
+			         #amount="ngModel"
+			         placeholder="0.00" 
+			         required  
+			         appTwoDigitDecimaNumber />
+
+              <label for="dateTime">{{'deposit_time_text'|translate}}</label>
+<!-- 			  <input type="date" 
+			         id="dateTime" 
+			         name="dateTime" 
+			         #dateTime="ngModel"
+			         required
+			         [(ngModel)]="deposit.dateTime"> -->
+               <p-calendar  id="dateTime" 
+			                name="dateTime" 
+			                #dateTime="ngModel"
+                            required 
+                            [(ngModel)]="deposit.dateTime" 
+                            dataType="string" 
+                            [showIcon]="true" 
+                            dateFormat="yy/mm/dd" 
+                            placeholder="YYYY/MM/DD">
+                            </p-calendar>
+
+              <label for="file">{{'bank_recepit_text'|translate}} </label>
+              <input type='file' style="display: none" required="true" #fileInput (change)="onFileChanged($event);" id="file" accept="image/*" required="true" /> 
+              <label for="file" style="width: 100%;border: 1px solid darkgray;margin: 10px 0;">
+              		<button type="button" 
+			          class="primary" 
+			         (click)="fileInput.click()"
+			         style="border-radius: 0px;background: #dc3545;" 
+			          ><i class="fa fa-copy"></i> {{'upload_file_text'|translate}}</button>
+			          <span style="margin-left: 10px;">{{this.deposit.doc?this.deposit.doc.name:'no_file_chosen_text'|translate}}</span>
+              </label>          
+
+              <textarea rows="5" cols="30" name="remark" [(ngModel)]="deposit.remark" autoResize="autoResize" style="resize: none;width:100%;padding:10px; margin:10px 0" placeholder="{{'remark_text'|translate}}"></textarea>
+
+              <div class="alert alert-danger" *ngIf="submitted && dateTime.invalid">*{{'deposit_time_text'|translate}} {{'required_text'|translate}}!</div>
+              <div class="alert alert-danger" *ngIf="submitted && !deposit.doc">*{{'bank_recepit_text'|translate}} {{'required_text'|translate}}!</div>
+			  <button type="submit" 
+			          class="primary" 
+			          (click)="depositApply(depositForm)"
+			          >{{'request_deposit_text'|translate}}</button>
+
+             <p-progressSpinner *ngIf="isApplying" [style]="{width: '50px', height: '50px', position:'absolute'}" strokeWidth="2" fill="#EEEEEE" animationDuration=".8s"></p-progressSpinner>
+
+
+			</form>
+
+		    </div>
+		   </p-card>
+        </div>
+          <div class="col-md-7">
+          <p-card subheader="{{'transactions_text'|translate}}" styleClass="ui-card-shadow">
+          	<p class="loading" *ngIf="isLoading">Loading...</p>
+            <transaction-list *ngIf="!isLoading" [transaction]="transaction"></transaction-list>
+         </p-card>
+        </div>
+       </div>
+    </div>
+</div>

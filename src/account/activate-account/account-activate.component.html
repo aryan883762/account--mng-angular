@@ -1,0 +1,24 @@
+<div class="lb-header">
+    <a href="javascript:void(0)" id="login-box-link" class="active" style="width:100%">
+   {{'Password_setting'|translate}}</a>
+</div>
+<p style="color:#494545" *ngIf="!requestSent">{{'Please_enter_account_passwod'|translate}}</p>
+<section id="account-container" class="form-widget mar-top">
+    <form #f="ngForm" (ngSubmit)="activate(f.form.valid)" novalidate autocomplete="off">
+        <div class="group" [ngClass]="{invalid: submitted && pass.invalid}">
+            <i class="fa fa-lock icon"></i>
+            <input  #pass="ngModel" type="password" name="password" [(ngModel)]="password" placeholder="{{'password_txt'|translate}}" required  maxlength="256" (keyup)="errors=[]" />
+        
+         <div class="validation-summary text-left" *ngIf="submitted && pass.invalid">
+                    {{'Please_enter_a_password'|translate}}
+         </div>
+          <div *ngIf="errors" class="validation-summary text-left">
+                <p *ngFor="let error of errors">{{error}}</p>
+        </div>
+        </div>
+
+        <footer class="group no-mar-top">
+            <input type="submit" id="account-btn" value="{{'next_text'|translate}}" />
+        </footer>
+    </form>
+</section>

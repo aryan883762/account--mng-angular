@@ -1,0 +1,9 @@
+{
+    "siteApiUrl": "",
+    "siteUrl": "",
+    "imageStorageUrl": "",
+    "pdfStorageUrl": "",
+    "siteImage": "",
+    "production": true,
+    "maintenance": false
+}

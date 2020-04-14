@@ -1,0 +1,131 @@
+<div class="gradient">
+    <div class="area container" style="z-index: unset;">
+        <div class="row">
+          <div class="col-md-3">     
+          <p-card header="Settings" styleClass="ui-card-shadow">
+		   </p-card>
+        </div>
+          <div class="col-md-9">
+          <p-card subheader="Profile Info setting" styleClass="ui-card-shadow">
+          <p-panel header="Basic Information" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+	        <form #personalBasicForm="ngForm" class="editForm" novalidate>
+		        <div class="tab-pane active settings">
+		        <br/>
+		        <div class='row'>
+	            <div class='col-md-12'>
+	                <div class="row">
+	                    <div class='col-xs-12 col-sm-6'>
+	                        <div class="form-group">
+	                            <label class="control-label" for="chineseName">{{lookupSvc.txt('chinese_name_txt')}}</label>  
+	                            <input  #chineseName="ngModel" required id="chineseName" name="chineseName" type="text" placeholder="Chinese name" [(ngModel)]="name_chinese" pInputText >   
+	                            <div class="alert alert-danger" *ngIf="personalBasicForm.submitted && chineseName.invalid">*Required</div>
+	                        </div>
+	                    </div>
+	                    <div class='col-xs-12 col-sm-6'>
+	                        <div class="form-group">
+	                            <label class="control-label" for="englishName">{{lookupSvc.txt('english_name_txt')}}</label>  
+	                            <input #englishName="ngModel" required id="englishName" name="englishName" type="text" placeholder="English name" [(ngModel)]="name_english" pInputText>
+	                            <div class="alert alert-danger" *ngIf="personalBasicForm.submitted && englishName.invalid">*Required</div>
+	                        </div>
+	                    </div>
+	                </div>
+
+                    <button pButton
+                                (click)="savePersonalInfo(personalBasicForm)" 
+                                type="button" 
+                                label="Save" 
+                                class="ui-button-info mb-3" 
+                                style="margin-right: .25em">    
+                                </button>
+				            </div>
+				        </div>
+				    </div>
+				</form>
+
+		   </p-panel>
+            <p-panel header="Identity Information" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+            	<div class="row mt-3">
+                      <div class="col-md-12 text-center">
+                       <p-selectButton [options]="types"  name="document" [(ngModel)]="selectedType"></p-selectButton>
+                      </div>
+                </div>
+                   <div class="row mt-3 identityInformation" [ngSwitch]="selectedType">
+                    <ng-template [ngSwitchCase]= "'id_card'"> 
+                     <div class="col-md-12 text-center"  *ngIf="!docs['id_card']">
+                       <h2 class="text-danger">
+                          Pending!
+                         ID proof not uploaded by you. 
+
+                       </h2>
+                        <button class="primary" 
+                                (click)="identityVarification('id_card')" 
+                                 >Upload now</button>
+                      </div>
+                    <div class="container" *ngIf="docs['id_card']">
+                      <div class="row">
+                        <div class="col-md-12">
+                         <div class="row">
+                          <div class="col-md-12 text-center">
+                        	<label class="control-label" for="idCardStatus">
+                            Status: </label>  
+                            <span> {{idCard.status}}</span>	
+                            <br>
+                            <label class="control-label" for="idCardReason">
+                            Reason: </label>
+                              <span> {{(idCard.reason)?idCard.reason:'Under review'}}</span>
+                          </div>
+                          </div>
+                         <div class="row">
+                         <div class="col-md-12 text-center">
+                          <a [href]="idCard.doc_url" target="_blank" *ngIf="!checkURL(idCard.doc_url)" style="word-break: break-all;">{{idCard.doc_url}}</a>
+                          <a [href]="idCard.doc_url"  target="_blank" *ngIf="checkURL(idCard.doc_url)"><img [src]="idCard.doc_url"></a>
+                          </div>
+                         </div>
+                        </div>
+                       </div> 
+                   </div>
+                    </ng-template>
+                    <ng-template [ngSwitchCase]= "'address'"> 
+                       <div class="col-md-12 text-center" *ngIf="!docs['address']"> 
+                        <h2 class="text-danger">
+                          Pending!
+                         Address document not uploaded by you. 
+                       </h2>
+                       <button class="primary" 
+                                (click)="identityVarification('address')" 
+                                 >Upload now</button>
+                       </div>
+                       <div class="container" *ngIf="docs['address']">
+                      <div class="row">
+                        <div class="col-md-12">
+                         <div class="row">
+                          <div class="col-md-12 text-center">
+                        	<label class="control-label" for="addressStatus">
+                            Status: </label>  
+                            <span> {{address.status}}</span>	
+                            <br>
+                            <label class="control-label" for="addressReason">
+                            Reason: </label>
+                              <span> {{(address.reason)?address.reason:'Under review'}}</span>
+                          </div>
+                          </div>
+                         <div class="row">
+                         <div class="col-md-12 text-center">
+                          <a [href]="address.doc_url" target="_blank" *ngIf="!checkURL(address.doc_url)" style="word-break: break-all;">{{address.doc_url}}</a>
+                          <a [href]="address.doc_url"  target="_blank" *ngIf="checkURL(address.doc_url)"><img [src]="address.doc_url"></a>
+                          </div>
+                         </div>
+                        </div>
+                       </div> 
+                   </div>
+                    </ng-template>
+                    <ng-template ngSwitchDefault> No Documents </ng-template>
+                  </div> 
+		   </p-panel>
+
+
+         </p-card>
+        </div>
+       </div>
+    </div>
+</div>

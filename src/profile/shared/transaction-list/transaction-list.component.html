@@ -1,0 +1,29 @@
+
+<div class="gradient">
+    <div class="container" style="z-index: unset;">
+        <div class="row">
+       <div style="width:100%">
+          <p class="loading" *ngIf="!(data && data.length)">
+            <img src="../../../assets/images/no-data-found.gif" class="norecord">
+            <small>{{'no_text'|translate}} {{'transactions_text'|translate}}</small>
+          </p>
+         <table class="my_table" *ngIf="(data && data.length)">
+          <tr>
+            <th>{{'type_text'|translate}}</th>
+            <th>{{'currency_text'|translate}}</th>
+            <th>{{'amount_text'|translate}}</th>
+            <th>{{'status_text'|translate}}</th>
+            <th>{{'remark_text'|translate}}</th>
+          </tr>
+            <tr *ngFor="let trans of data">
+            <td>{{trans.type|translate}}</td>
+            <td>{{trans.currency}}</td>
+            <td>{{trans.amount}}</td>
+            <td>{{trans.status|translate}}</td>
+            <td>{{trans.client_remark}}</td>
+          </tr>
+        </table>
+      </div>
+       </div>
+    </div>
+</div>
